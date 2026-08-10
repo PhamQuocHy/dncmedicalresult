@@ -373,14 +373,15 @@ export function MobileBottomNav({
                 height: 52,
                 borderRadius: "999px",
                 color: active ? G.blueInk : "rgba(60, 64, 67, 0.72)",
-                bgcolor: "transparent",
+                bgcolor: active
+                  ? "rgba(255, 255, 255, 0.45)"
+                  : "transparent",
                 overflow: "hidden",
                 transition:
                   "color 180ms ease, transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease, border-color 180ms ease",
                 // Active: viên kính trong suốt (không fill đặc)
                 ...(active
                   ? {
-                      bgcolor: "rgba(255, 255, 255, 0.45)",
                       border: "1px solid rgba(255, 255, 255, 0.75)",
                       boxShadow: `
                         0 4px 16px rgba(15, 23, 42, 0.1),
