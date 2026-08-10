@@ -84,8 +84,8 @@ export default function ImagingResultPage() {
         sx={{
           flex: 1,
           position: "relative",
-          overflow: "hidden",
-          pb: { xs: 9, sm: 0 },
+          overflow: "visible",
+          pb: { xs: 14, sm: 0 },
         }}
       >
         <Box

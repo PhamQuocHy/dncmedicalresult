@@ -349,6 +349,6 @@ export const visits: Visit[] = [
 
 export const contactLinks = {
   messenger: "https://m.me/",
-  zalo: "https://zalo.me/",
+  zalo: "https://zalo.me/1960572385349798276",
   phone: "0907365115",
 };

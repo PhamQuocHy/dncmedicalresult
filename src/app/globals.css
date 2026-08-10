@@ -98,7 +98,18 @@ h6 {
   height: var(--fab-size);
 }
 
-/* Zalo chat widget */
+/* Mobile: icon Zalo (link OA). Desktop: ẩn — dùng widget SDK */
+.floating-zalo-fab {
+  position: fixed;
+  z-index: 40;
+  right: var(--fab-right);
+  bottom: var(--fab-bottom);
+  display: none;
+  width: var(--fab-size);
+  height: var(--fab-size);
+}
+
+/* Desktop: Zalo OA chat widget */
 .zalo-chat-widget {
   bottom: var(--fab-bottom) !important;
   right: var(--fab-right) !important;
@@ -117,9 +128,35 @@ h6 {
     --fab-bottom: 88px;
   }
 
+  .floating-zalo-fab {
+    display: block;
+  }
+
+  /* Không để SDK / wrapper cũ sót lại đè UI trên mobile */
+  .zalo-chat-widget,
+  .za-chat__wrapper,
+  .chat-wrapper.za-chat__wrapper {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body.booking-modal-open .floating-zalo-fab,
+  body.booking-modal-open .floating-messenger-fab,
+  body.otp-modal-open .floating-zalo-fab,
+  body.otp-modal-open .floating-messenger-fab {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (min-width: 768px) {
   body.booking-modal-open .zalo-chat-widget,
+  body.booking-modal-open .za-chat__wrapper,
   body.booking-modal-open .floating-messenger-fab,
   body.otp-modal-open .zalo-chat-widget,
+  body.otp-modal-open .za-chat__wrapper,
   body.otp-modal-open .floating-messenger-fab {
     visibility: hidden !important;
     opacity: 0 !important;

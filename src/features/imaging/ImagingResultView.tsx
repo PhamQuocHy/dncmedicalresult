@@ -221,6 +221,7 @@ export function ImagingResultView({ detail }: Props) {
         },
         alignItems: "stretch",
         minHeight: { lg: "calc(100vh - 200px)" },
+        mb: { xs: 1, sm: 0 },
       }}
     >
       {/* Viewer */}
@@ -234,6 +235,8 @@ export function ImagingResultView({ detail }: Props) {
           overflow: "hidden",
           bgcolor: "#202124",
           boxShadow: SHADOW,
+          position: "relative",
+          zIndex: 0,
           ":fullscreen": {
             borderRadius: 0,
             width: "100vw",
@@ -341,7 +344,7 @@ export function ImagingResultView({ detail }: Props) {
             overflow: "hidden",
             cursor: panMode ? (dragging ? "grabbing" : "grab") : "default",
             userSelect: "none",
-            touchAction: panMode ? "none" : "auto",
+            touchAction: panMode ? "none" : "pan-y",
           }}
         >
           <Box
@@ -377,7 +380,17 @@ export function ImagingResultView({ detail }: Props) {
           </Typography>
         </Box>
 
-        <Box sx={{ px: 1.5, py: 1.25, bgcolor: "rgba(0,0,0,0.25)" }}>
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 2,
+            px: 1.5,
+            pt: 1.25,
+            pb: 1.5,
+            bgcolor: "rgba(0,0,0,0.35)",
+            flexShrink: 0,
+          }}
+        >
           <Typography
             align="center"
             sx={{ mb: 1, fontSize: 12.5, color: "rgba(255,255,255,0.45)" }}
@@ -387,40 +400,63 @@ export function ImagingResultView({ detail }: Props) {
           </Typography>
           <Stack
             direction="row"
-            spacing={0.85}
-            sx={{ overflowX: "auto", pb: 0.25 }}
+            spacing={1}
+            sx={{
+              overflowX: "auto",
+              WebkitOverflowScrolling: "touch",
+              touchAction: "pan-x",
+              pb: 0.5,
+              mx: -0.25,
+              px: 0.25,
+              scrollbarWidth: "none",
+              "&::-webkit-scrollbar": { display: "none" },
+            }}
           >
             {detail.images.map((img, idx) => (
               <Box
                 key={img.id}
                 component="button"
                 type="button"
+                aria-label={img.label || `Ảnh ${idx + 1}`}
+                aria-pressed={idx === active}
                 onClick={() => selectImage(idx)}
                 sx={{
-                  all: "unset",
+                  appearance: "none",
+                  border: 0,
+                  margin: 0,
+                  padding: 0,
                   cursor: "pointer",
                   position: "relative",
-                  width: 48,
-                  height: 48,
+                  width: { xs: 56, sm: 48 },
+                  height: { xs: 56, sm: 48 },
                   flexShrink: 0,
                   borderRadius: "10px",
                   overflow: "hidden",
                   bgcolor: "#000",
+                  WebkitTapHighlightColor: "transparent",
+                  touchAction: "manipulation",
+                  pointerEvents: "auto",
                   boxShadow:
                     idx === active
-                      ? `0 0 0 2px ${G.blue}`
-                      : "0 0 0 1px rgba(255,255,255,0.1)",
+                      ? `0 0 0 2.5px ${G.blue}`
+                      : "0 0 0 1px rgba(255,255,255,0.15)",
+                  "&:active": {
+                    opacity: 0.85,
+                  },
                 }}
               >
                 <Box
                   component="img"
                   src={img.src}
                   alt={img.label}
+                  draggable={false}
                   sx={{
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
                     filter: "contrast(1.05)",
+                    pointerEvents: "none",
+                    display: "block",
                   }}
                 />
               </Box>
@@ -439,6 +475,8 @@ export function ImagingResultView({ detail }: Props) {
           bgcolor: "#fff",
           boxShadow: SHADOW,
           overflow: "hidden",
+          position: "relative",
+          zIndex: 0,
         }}
       >
         <Box sx={{ flex: 1, overflowY: "auto", p: { xs: 1.75, sm: 2 } }}>
