@@ -21,9 +21,9 @@ import {
   Thermometer,
   UserRound,
 } from "lucide-react";
-import { FloatingContact } from "@/components/layout/FloatingContact";
 import { LookupForm } from "@/features/lookup/LookupForm";
 import { OTPModal } from "@/features/lookup/OTPModal";
+import { PageFooter } from "@/components/layout/PageFooter";
 import { assetPath } from "@/lib/assetPath";
 import { getSession } from "@/lib/session";
 
@@ -151,15 +151,7 @@ export default function HomePage() {
         </div>
       </main>
 
-      <footer className="mt-auto">
-        <div className="mx-auto flex h-12 max-w-[1200px] items-center justify-center px-4 sm:h-14">
-          <Typography variant="body2" align="center" className="text-gray-500 font-normal! text-[16px]!">
-            © 2022–2024 Bệnh Viện Đại Học Nam Cần Thơ. All Rights Reserved.
-          </Typography>
-        </div>
-      </footer>
-
-      <FloatingContact />
+      <PageFooter />
 
       <OTPModal
         open={otpOpen}

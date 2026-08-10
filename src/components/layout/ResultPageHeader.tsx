@@ -114,6 +114,7 @@ export function ResultPageHeader({
               variant="outlined"
               startIcon={<SupportAgentRoundedIcon sx={{ fontSize: 19 }} />}
               sx={{
+                display: { xs: "none", sm: "inline-flex" },
                 height: 36,
                 borderRadius: 999,
                 borderColor: "#e2e8f0",
@@ -121,17 +122,11 @@ export function ResultPageHeader({
                 fontWeight: 500,
                 fontSize: 14.5,
                 textTransform: "none",
-                px: { xs: 1.25, sm: 1.75 },
-                "& .MuiButton-startIcon": { mr: { xs: 0, sm: 0.75 } },
+                px: 1.75,
                 "&:hover": { borderColor: "#cbd5e1", bgcolor: "#f8fafc" },
               }}
             >
-              <Box
-                component="span"
-                sx={{ display: { xs: "none", sm: "inline" } }}
-              >
-                Hỗ trợ
-              </Box>
+              Hỗ trợ
             </Button>
           ) : null}
           {showDownload ? (

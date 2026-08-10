@@ -19,7 +19,16 @@ export async function requestOtp(payload: LookupPayload) {
   if (payload.maKcb.length < 6 || payload.phone.length < 9) {
     throw new ApiError("Thông tin không hợp lệ", 400);
   }
-  // Mock: mọi mã hợp lệ đều gửi OTP thành công
+
+  const maKcb = payload.maKcb.trim();
+  const phone = payload.phone.trim().replace(/\s+/g, "");
+  if (maKcb !== patient.maKcb || phone !== patient.phone) {
+    throw new ApiError(
+      "Mã khám chữa bệnh hoặc số điện thoại chưa đúng vui lòng nhập",
+      400,
+    );
+  }
+
   return {
     success: true as const,
     message: "Đã gửi mã OTP tới số điện thoại",

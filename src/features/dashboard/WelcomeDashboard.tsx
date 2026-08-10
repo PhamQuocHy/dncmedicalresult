@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { IconType } from "react-icons";
-import { FiFileText, FiHome, FiHeadphones, FiUser } from "react-icons/fi";
+import { FiFileText, FiHome, FiUser } from "react-icons/fi";
+import { TbHeadset } from "react-icons/tb";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -106,7 +107,7 @@ function VitalCell({ label, value }: { label: string; value: string }) {
     >
       <Typography
         sx={{
-          fontSize: 14.5,
+          fontSize: { xs: 13.5, sm: 14.5 },
           fontWeight: 500,
           color: G.secondary,
           mb: 0.65,
@@ -117,7 +118,7 @@ function VitalCell({ label, value }: { label: string; value: string }) {
       </Typography>
       <Typography
         sx={{
-          fontSize: { xs: 19, sm: 21 },
+          fontSize: { xs: 18, sm: 21 },
           fontWeight: 500,
           color: G.ink,
           letterSpacing: "-0.01em",
@@ -185,8 +186,11 @@ export function DashboardTopBar({
       sx={{
         zIndex: 30,
         bgcolor: "#fff",
-        borderBottom: `1px solid ${G.outline}`,
-        boxShadow: "0 1px 2px 0 rgba(60,64,67,0.08)",
+        borderBottom: { xs: "none", sm: `1px solid ${G.outline}` },
+        boxShadow: {
+          xs: "0 4px 16px rgba(60,64,67,0.10)",
+          sm: "0 1px 2px 0 rgba(60,64,67,0.08)",
+        },
         position: "sticky",
         top: 0,
       }}
@@ -308,10 +312,10 @@ const MOBILE_NAV: { id: NavTab; label: string; Icon: IconType }[] = [
   { id: "home", label: "Trang chủ", Icon: FiHome },
   { id: "history", label: "Lịch sử", Icon: FiFileText },
   { id: "info", label: "Thông tin", Icon: FiUser },
-  { id: "support", label: "Hỗ trợ", Icon: FiHeadphones },
+  { id: "support", label: "Hỗ trợ", Icon: TbHeadset },
 ];
 
-/** Bottom nav dạng pill nổi + liquid glass — chỉ hiện trên mobile */
+/** Bottom nav pill — liquid glass theo mẫu Apple / frosted capsule */
 export function MobileBottomNav({
   activeTab,
   onTabChange,
@@ -336,22 +340,24 @@ export function MobileBottomNav({
       <Box
         sx={{
           pointerEvents: "auto",
+          position: "relative",
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 0.5,
-          px: 1,
-          py: 0.65,
-          width: "auto",
+          gap: 0.35,
+          p: "5px",
           borderRadius: "999px",
-          bgcolor: "rgba(255,255,255,0.42)",
-          border: "1px solid rgba(255,255,255,0.55)",
-          boxShadow:
-            "0 8px 28px rgba(60,64,67,0.16), inset 0 1px 0 rgba(255,255,255,0.75), inset 0 -1px 0 rgba(255,255,255,0.2)",
-          backdropFilter: "blur(18px) saturate(180%)",
-          WebkitBackdropFilter: "blur(18px) saturate(180%)",
-          backgroundImage:
-            "linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 45%, rgba(255,255,255,0.32) 100%)",
+          // Track: kính mờ, thấy nền phía sau
+          bgcolor: "rgba(255, 255, 255, 0.28)",
+          border: "1px solid rgba(255, 255, 255, 0.55)",
+          boxShadow: `
+            0 8px 32px rgba(15, 23, 42, 0.12),
+            0 1px 3px rgba(15, 23, 42, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.65),
+            inset 0 -0.5px 0 rgba(255, 255, 255, 0.25)
+          `,
+          backdropFilter: "blur(40px) saturate(180%)",
+          WebkitBackdropFilter: "blur(40px) saturate(180%)",
         }}
       >
         {MOBILE_NAV.map(({ id, label, Icon }) => {
@@ -362,26 +368,65 @@ export function MobileBottomNav({
               aria-label={label}
               onClick={() => onTabChange(id)}
               sx={{
-                width: 46,
-                height: 46,
-                borderRadius: "50%",
-                color: active ? "#fff" : G.secondary,
-                bgcolor: active ? G.blue : "transparent",
-                boxShadow: active
-                  ? "0 2px 10px rgba(26,115,232,0.35)"
-                  : "none",
+                position: "relative",
+                width: 52,
+                height: 52,
+                borderRadius: "999px",
+                color: active ? G.blueInk : "rgba(60, 64, 67, 0.72)",
+                bgcolor: "transparent",
+                overflow: "hidden",
                 transition:
-                  "background-color 180ms ease, color 180ms ease, box-shadow 180ms ease, transform 180ms ease",
-                "&:hover": {
-                  bgcolor: active ? G.blue : "rgba(255,255,255,0.35)",
-                  color: active ? "#fff" : G.ink,
-                },
+                  "color 180ms ease, transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease, border-color 180ms ease",
+                // Active: viên kính trong suốt (không fill đặc)
+                ...(active
+                  ? {
+                      bgcolor: "rgba(255, 255, 255, 0.45)",
+                      border: "1px solid rgba(255, 255, 255, 0.75)",
+                      boxShadow: `
+                        0 4px 16px rgba(15, 23, 42, 0.1),
+                        0 1px 2px rgba(15, 23, 42, 0.06),
+                        inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+                        inset 0 -1px 1px rgba(255, 255, 255, 0.35),
+                        inset 1px 0 0 rgba(255, 255, 255, 0.55)
+                      `,
+                      backdropFilter: "blur(20px) saturate(200%) brightness(1.08)",
+                      WebkitBackdropFilter:
+                        "blur(20px) saturate(200%) brightness(1.08)",
+                      backgroundImage: `
+                        linear-gradient(
+                          165deg,
+                          rgba(255,255,255,0.75) 0%,
+                          rgba(255,255,255,0.2) 40%,
+                          rgba(255,255,255,0.35) 100%
+                        )
+                      `,
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        left: "10%",
+                        right: "10%",
+                        top: 1,
+                        height: "38%",
+                        borderRadius: "999px",
+                        background:
+                          "linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 100%)",
+                        pointerEvents: "none",
+                        opacity: 0.9,
+                      },
+                    }
+                  : {
+                      border: "1px solid transparent",
+                      "&:hover": {
+                        bgcolor: "rgba(255, 255, 255, 0.22)",
+                        color: G.ink,
+                      },
+                    }),
                 "&:active": {
-                  transform: "scale(0.92)",
+                  transform: "scale(0.94)",
                 },
               }}
             >
-              <Icon size={20} strokeWidth={active ? 2.25 : 1.75} />
+              <Icon size={24} strokeWidth={active ? 2.15 : 1.75} />
             </IconButton>
           );
         })}
@@ -821,22 +866,34 @@ export function WelcomeDashboard({
                   textAlign: "left",
                   cursor: "pointer",
                   display: "flex",
-                  width: "100%",
                   boxSizing: "border-box",
                   alignItems: "center",
                   gap: 1.25,
-                  px: 0.5,
-                  py: 1.2,
-                  minHeight: 56,
-                  borderRadius: "8px",
+                  px: { xs: 1.75, sm: 0.5 },
+                  py: { xs: 1.45, sm: 1.2 },
+                  minHeight: { xs: 64, sm: 56 },
+                  mx: { xs: -1.75, sm: 0 },
+                  width: { xs: "calc(100% + 28px)", sm: "100%" },
+                  borderRadius: { xs: 0, sm: "8px" },
                   color: "inherit",
                   outline: "none",
+                  WebkitTapHighlightColor: "transparent",
+                  touchAction: "manipulation",
+                  userSelect: "none",
                   transition: "background-color 120ms ease",
-                  "&:hover": {
+                  "@media (hover: hover)": {
+                    "&:hover": {
+                      bgcolor: G.surface,
+                    },
+                  },
+                  "&:active": {
                     bgcolor: G.surface,
                   },
                   "&:focus-visible": {
                     bgcolor: G.surface,
+                  },
+                  "& *": {
+                    pointerEvents: "none",
                   },
                 }}
               >

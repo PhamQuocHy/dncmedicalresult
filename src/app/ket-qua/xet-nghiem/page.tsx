@@ -21,6 +21,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { AppMobileBottomNav } from "@/components/layout/AppMobileBottomNav";
+import { PageFooter } from "@/components/layout/PageFooter";
 import { ResultPageHeader } from "@/components/layout/ResultPageHeader";
 import { LabResultView } from "@/features/lab/LabResultView";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
@@ -107,28 +108,14 @@ export default function LabResultPage() {
             maxWidth: 1440,
             mx: "auto",
             px: { xs: 2, sm: 10 },
-            py: { xs: 2.5, sm: 3 },
+            py: { xs: 2.5, sm: "35px" },
           }}
         >
           <LabResultView patient={patient} detail={labResultDetail} />
         </Box>
       </Box>
 
-      <Box
-        component="footer"
-        sx={{
-          mt: "auto",
-          py: 1.75,
-          borderTop: `1px solid ${G.outline}`,
-          bgcolor: "#fff",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        <Typography align="center" sx={{ fontSize: 14, color: "#9AA3B2" }}>
-          © 2022–2024 Bệnh Viện Đại Học Nam Cần Thơ. All Rights Reserved.
-        </Typography>
-      </Box>
+      <PageFooter />
 
       <AppMobileBottomNav />
     </Box>

@@ -306,16 +306,38 @@ export function LatestResultsView({
                 >
                   {patient.fullName}
                 </Typography>
-                <Typography
-                  sx={{ mt: 0.35, fontSize: 14, color: G.secondary, lineHeight: 1.4 }}
-                >
-                  {patient.gender}
-                  {age != null ? ` · ${age} tuổi` : ""} · {patient.dateOfBirth}
-                  {" · "}
-                  <Box component="span" sx={{ color: G.blue, fontWeight: 500 }}>
+                <Box sx={{ mt: 0.35, fontSize: 14, lineHeight: 1.4 }}>
+                  <Typography
+                    component="span"
+                    sx={{ fontSize: 14, color: G.secondary, lineHeight: 1.4 }}
+                  >
+                    {patient.gender}
+                    {age != null ? ` · ${age} tuổi` : ""} · {patient.dateOfBirth}
+                  </Typography>
+                  <Box
+                    component="span"
+                    sx={{
+                      display: { xs: "block", sm: "inline" },
+                      mt: { xs: 0.25, sm: 0 },
+                      color: G.blue,
+                      fontWeight: 500,
+                      fontSize: 14,
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    <Box
+                      component="span"
+                      sx={{
+                        display: { xs: "none", sm: "inline" },
+                        color: G.secondary,
+                        fontWeight: 400,
+                      }}
+                    >
+                      {" · "}
+                    </Box>
                     Mã KCB: {patient.maKcb}
                   </Box>
-                </Typography>
+                </Box>
 
                 {patient.allergies.length > 0 ? (
                   <Stack

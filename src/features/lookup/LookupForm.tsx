@@ -141,7 +141,12 @@ export function LookupForm({ onSuccess }: Props) {
           id="ma-kcb"
           label="Mã khám chữa bệnh"
           value={maKcb}
-          onChange={setMaKcb}
+          onChange={(v) => {
+            setMaKcb(v);
+            if (errors.form || errors.maKcb) {
+              setErrors((prev) => ({ ...prev, maKcb: undefined, form: undefined }));
+            }
+          }}
           error={errors.maKcb}
           autoComplete="off"
           icon={BadgeOutlinedIcon}
@@ -150,7 +155,12 @@ export function LookupForm({ onSuccess }: Props) {
           id="phone"
           label="Số điện thoại"
           value={phone}
-          onChange={setPhone}
+          onChange={(v) => {
+            setPhone(v);
+            if (errors.form || errors.phone) {
+              setErrors((prev) => ({ ...prev, phone: undefined, form: undefined }));
+            }
+          }}
           error={errors.phone}
           type="tel"
           autoComplete="tel"
@@ -222,13 +232,13 @@ export function LookupForm({ onSuccess }: Props) {
             Liên hệ ngay.
           </a>
         </p>
-      </div>
 
-      {errors.form ? (
-        <Alert severity="error" sx={{ borderRadius: 2 }}>
-          {errors.form}
-        </Alert>
-      ) : null}
+        {errors.form ? (
+          <Alert severity="error" sx={{ borderRadius: 2, width: "100%" }}>
+            {errors.form}
+          </Alert>
+        ) : null}
+      </div>
     </form>
   );
 }

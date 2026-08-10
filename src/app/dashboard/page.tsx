@@ -27,6 +27,7 @@ import {
 import { PatientProfile } from "@/components/patient/PatientProfile";
 import { PatientProfileModal } from "@/components/patient/PatientProfileModal";
 import { ResultPageHeader } from "@/components/layout/ResultPageHeader";
+import { PageFooter } from "@/components/layout/PageFooter";
 import { LatestResultsView } from "@/features/dashboard/LatestResultsView";
 import { MedicalHistoryList } from "@/features/dashboard/MedicalHistoryList";
 import {
@@ -336,7 +337,7 @@ function DashboardPageContent() {
             maxWidth: 1440,
             mx: "auto",
             px: { xs: 2, sm: 10 },
-            py: { xs: 2.5, sm: 3 },
+            py: { xs: 2.5, sm: "35px" },
           }}
         >
           {activeView === "welcome" ? (
@@ -452,29 +453,7 @@ function DashboardPageContent() {
         </Box>
       </Box>
 
-      <Box
-        component="footer"
-        sx={{
-          mt: "auto",
-          py: { xs: 1, sm: 1.25 },
-          borderTop: "1px solid #E6EAEF",
-          bgcolor: "#fff",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        <Typography
-          align="center"
-          sx={{
-            fontSize: { xs: 12, sm: 14 },
-            color: "#9AA3B2",
-            lineHeight: 1.35,
-            px: 1.5,
-          }}
-        >
-          © 2022–2024 Bệnh Viện Đại Học Nam Cần Thơ. All Rights Reserved.
-        </Typography>
-      </Box>
+      <PageFooter />
 
       <MobileBottomNav activeTab={bottomTab} onTabChange={handleMainNav} />
 
