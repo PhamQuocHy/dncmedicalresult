@@ -224,13 +224,15 @@ export function ImagingResultView({ detail }: Props) {
         mb: { xs: 1, sm: 0 },
       }}
     >
-      {/* Viewer */}
+      {/* Viewer — chiều cao cố định, không co giãn theo ảnh */}
       <Box
         ref={viewerRef}
         sx={{
           display: "flex",
           flexDirection: "column",
-          minHeight: { xs: 420, lg: 0 },
+          height: { xs: 420, sm: 480, lg: "100%" },
+          minHeight: { xs: 420, sm: 480, lg: 520 },
+          maxHeight: { xs: 420, sm: 480, lg: "none" },
           borderRadius: CARD_RADIUS,
           overflow: "hidden",
           bgcolor: "#202124",
@@ -241,6 +243,7 @@ export function ImagingResultView({ detail }: Props) {
             borderRadius: 0,
             width: "100vw",
             height: "100vh",
+            maxHeight: "none",
           },
         }}
       >
@@ -252,6 +255,7 @@ export function ImagingResultView({ detail }: Props) {
             px: 1.25,
             py: 0.85,
             gap: 1,
+            flexShrink: 0,
           }}
         >
           <Stack
@@ -335,12 +339,8 @@ export function ImagingResultView({ detail }: Props) {
           onPointerCancel={onPointerUp}
           sx={{
             position: "relative",
-            flex: 1,
-            display: "grid",
-            placeItems: "center",
-            px: 1.5,
-            py: 1.25,
-            minHeight: { xs: 260, lg: 280 },
+            flex: "1 1 auto",
+            minHeight: 0,
             overflow: "hidden",
             cursor: panMode ? (dragging ? "grabbing" : "grab") : "default",
             userSelect: "none",
@@ -348,23 +348,34 @@ export function ImagingResultView({ detail }: Props) {
           }}
         >
           <Box
-            component="img"
-            src={image.src}
-            alt={image.label}
-            draggable={false}
             sx={{
-              maxWidth: "92%",
-              maxHeight: "100%",
-              width: "auto",
-              height: "auto",
-              objectFit: "contain",
-              transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom / 100}) rotate(${rotation}deg)`,
-              transition: dragging ? "none" : "transform 150ms ease",
-              filter: "contrast(1.05) brightness(1.02)",
-              pointerEvents: "none",
-              borderRadius: "4px",
+              position: "absolute",
+              inset: 0,
+              display: "grid",
+              placeItems: "center",
+              px: 1.5,
+              py: 1.25,
             }}
-          />
+          >
+            <Box
+              component="img"
+              src={image.src}
+              alt={image.label}
+              draggable={false}
+              sx={{
+                maxWidth: "92%",
+                maxHeight: "100%",
+                width: "auto",
+                height: "auto",
+                objectFit: "contain",
+                transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom / 100}) rotate(${rotation}deg)`,
+                transition: dragging ? "none" : "transform 150ms ease",
+                filter: "contrast(1.05) brightness(1.02)",
+                pointerEvents: "none",
+                borderRadius: "4px",
+              }}
+            />
+          </Box>
           <Typography
             sx={{
               position: "absolute",
