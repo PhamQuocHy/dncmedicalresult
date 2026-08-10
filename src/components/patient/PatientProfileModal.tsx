@@ -22,11 +22,12 @@ type SectionId = "personal" | "contact" | "idcard";
 const MENU: {
   id: SectionId;
   label: string;
+  shortLabel: string;
   Icon: IconType;
 }[] = [
-  { id: "personal", label: "Thông tin cá nhân", Icon: FiUser },
-  { id: "contact", label: "Liên hệ & địa chỉ", Icon: FiMapPin },
-  { id: "idcard", label: "Thông tin BHYT", Icon: FiCreditCard },
+  { id: "personal", label: "Thông tin cá nhân", shortLabel: "Cá nhân", Icon: FiUser },
+  { id: "contact", label: "Liên hệ & địa chỉ", shortLabel: "Liên hệ", Icon: FiMapPin },
+  { id: "idcard", label: "Thông tin BHYT", shortLabel: "BHYT", Icon: FiCreditCard },
 ];
 
 const MODAL_HEIGHT = 600;
@@ -278,41 +279,50 @@ export function PatientProfileModal({ open, patient, onClose }: Props) {
 
           <Box
             sx={{
-              display: { xs: "flex", sm: "none" },
+              display: { xs: "grid", sm: "none" },
+              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
               gap: 0.75,
               px: 2,
               pb: 1.25,
               flexShrink: 0,
-              overflowX: "auto",
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              "&::-webkit-scrollbar": { display: "none", height: 0 },
+              width: "100%",
+              boxSizing: "border-box",
             }}
           >
-            {MENU.map(({ id, label }) => {
+            {MENU.map(({ id, label, shortLabel }) => {
               const active = section === id;
               return (
                 <Box
                   key={id}
                   component="button"
                   type="button"
+                  aria-label={label}
                   onClick={() => setSection(id)}
                   sx={{
                     appearance: "none",
                     border: 0,
-                    whiteSpace: "nowrap",
+                    margin: 0,
+                    font: "inherit",
                     cursor: "pointer",
-                    px: 1.35,
-                    py: 0.7,
+                    px: 0.75,
+                    py: 1.1,
+                    minHeight: 42,
                     borderRadius: "10px",
-                    fontSize: 14.5,
+                    fontSize: 13.5,
                     fontWeight: 400,
+                    lineHeight: 1.35,
                     bgcolor: active ? G.blueSoft : "#fff",
                     color: active ? G.blue : G.secondary,
-                    flexShrink: 0,
+                    minWidth: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  {label}
+                  {shortLabel}
                 </Box>
               );
             })}

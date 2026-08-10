@@ -1,20 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { IconType } from "react-icons";
 import { FiFileText, FiHome, FiHeadphones, FiUser } from "react-icons/fi";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
+import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import LocalHospitalOutlinedIcon from "@mui/icons-material/LocalHospitalOutlined";
@@ -203,10 +204,18 @@ export function DashboardTopBar({
         }}
       >
         <Box
+          component={Link}
+          href="/dashboard"
+          onClick={() => onTabChange("home")}
+          aria-label="Về trang chủ"
           sx={{
             display: "flex",
             alignItems: "center",
             height: { xs: 48, sm: 56 },
+            textDecoration: "none",
+            borderRadius: "8px",
+            flexShrink: 0,
+            "&:hover": { opacity: 0.9 },
           }}
         >
           <Image
@@ -389,13 +398,23 @@ export function WelcomeDashboard({
   onNavigate,
   onOpenVisit,
 }: Props) {
-  const [expanded, setExpanded] = useState<string | false>(visits[0]?.id ?? false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [expanded, setExpanded] = useState<string | false>(false);
   const age = calcAge(patient.dateOfBirth);
   const glucose = lab.categories
     .flatMap((c) => c.indicators)
     .find((i) => i.id === "glucose");
 
   const recentVisits = useMemo(() => visits.slice(0, 4), [visits]);
+
+  useEffect(() => {
+    if (!isMobile && visits[0]?.id) {
+      setExpanded(visits[0].id);
+    } else {
+      setExpanded(false);
+    }
+  }, [isMobile, visits]);
 
   return (
     <Box
@@ -603,19 +622,58 @@ export function WelcomeDashboard({
           Lần khám gần đây
         </Typography>
 
-        <Stack spacing={0} sx={{ flex: 1 }}>
+        <Stack
+          spacing={0}
+          sx={{
+            flex: 1,
+            mx: { xs: -2.25, sm: -2.75 },
+          }}
+        >
           {recentVisits.map((visit, index) => (
             <Box key={visit.id}>
               {index > 0 ? (
                 <Divider sx={{ borderColor: "rgba(218,220,224,0.55)" }} />
               ) : null}
-              <Stack
-                direction="row"
-                spacing={1.25}
+              <Box
+                component="button"
+                type="button"
+                aria-label={`Xem kết quả ${visit.doctor}, ${visit.date}`}
+                onClick={() => onOpenVisit(visit.id)}
                 sx={{
-                  py: 1.3,
+                  appearance: "none",
+                  border: 0,
+                  margin: 0,
+                  background: "transparent",
+                  font: "inherit",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  display: "flex",
+                  width: "100%",
+                  boxSizing: "border-box",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  gap: 1.25,
+                  py: { xs: 1.5, sm: 1.3 },
+                  px: { xs: 2.25, sm: 2.75 },
+                  minHeight: { xs: 64, sm: 56 },
+                  borderRadius: 0,
+                  color: "inherit",
+                  outline: "none",
+                  WebkitTapHighlightColor: "transparent",
+                  touchAction: "manipulation",
+                  transition: "background-color 120ms ease",
+                  "&:hover": {
+                    bgcolor: G.surface,
+                  },
+                  "&:active": {
+                    bgcolor: G.surface,
+                  },
+                  "&:focus-visible": {
+                    bgcolor: G.surface,
+                  },
+                  "& *": {
+                    pointerEvents: "none",
+                  },
                 }}
               >
                 <Stack
@@ -659,22 +717,22 @@ export function WelcomeDashboard({
                     </Typography>
                   </Box>
                 </Stack>
-                <IconButton
-                  size="small"
-                  aria-label="Xem kết quả đợt khám"
-                  onClick={() => onOpenVisit(visit.id)}
+                <Box
+                  aria-hidden
                   sx={{
                     color: G.blueInk,
                     borderRadius: "12px",
                     width: 36,
                     height: 36,
+                    flexShrink: 0,
                     bgcolor: G.blueSoft,
-                    "&:hover": { bgcolor: "#d2e3fc" },
+                    display: "grid",
+                    placeItems: "center",
                   }}
                 >
                   <CalendarTodayOutlinedIcon sx={{ fontSize: 19 }} />
-                </IconButton>
-              </Stack>
+                </Box>
+              </Box>
             </Box>
           ))}
         </Stack>
@@ -745,34 +803,40 @@ export function WelcomeDashboard({
         {visits.map((visit) => {
           const isOpen = expanded === visit.id;
           return (
-            <Accordion
+            <Box
               key={visit.id}
-              disableGutters
-              elevation={0}
-              expanded={isOpen}
-              onChange={(_, next) => setExpanded(next ? visit.id : false)}
-              sx={{
-                bgcolor: "transparent",
-                "&:before": { display: "none" },
-                borderTop: "none",
-              }}
+              sx={{ borderTop: `1px solid rgba(218,220,224,0.55)` }}
             >
-              <AccordionSummary
-                expandIcon={
-                  <ExpandMoreRoundedIcon
-                    sx={{ color: G.secondary, fontSize: 23 }}
-                  />
-                }
+              <Box
+                component="button"
+                type="button"
+                aria-expanded={isOpen}
+                onClick={() => setExpanded(isOpen ? false : visit.id)}
                 sx={{
+                  appearance: "none",
+                  border: 0,
+                  margin: 0,
+                  background: "transparent",
+                  font: "inherit",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  display: "flex",
+                  width: "100%",
+                  boxSizing: "border-box",
+                  alignItems: "center",
+                  gap: 1.25,
                   px: 0.5,
+                  py: 1.2,
                   minHeight: 56,
                   borderRadius: "8px",
-                  borderTop: `1px solid rgba(218,220,224,0.55)`,
-                  "&:hover": { bgcolor: G.surface },
-                  "& .MuiAccordionSummary-content": {
-                    my: 1.2,
-                    alignItems: "center",
-                    gap: 1.25,
+                  color: "inherit",
+                  outline: "none",
+                  transition: "background-color 120ms ease",
+                  "&:hover": {
+                    bgcolor: G.surface,
+                  },
+                  "&:focus-visible": {
+                    bgcolor: G.surface,
                   },
                 }}
               >
@@ -816,20 +880,52 @@ export function WelcomeDashboard({
                   <Box
                     sx={{
                       display: { xs: "none", sm: "block" },
-                      mr: 1,
+                      mr: 0.5,
+                      flexShrink: 0,
                     }}
                   >
                     <StatusChip status={visit.status} />
                   </Box>
                 ) : null}
-              </AccordionSummary>
-
-              <AccordionDetails sx={{ px: 0.5, pb: 1.75 }}>
-                <Box
+                <ExpandMoreRoundedIcon
                   sx={{
-                    bgcolor: G.surface,
+                    color: G.secondary,
+                    fontSize: 23,
+                    flexShrink: 0,
+                    transform: isOpen ? "rotate(180deg)" : "none",
+                    transition: "transform 180ms ease",
+                  }}
+                />
+              </Box>
+
+              <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                <Box sx={{ px: 0.5, pb: 1.75 }}>
+                <Box
+                  component="button"
+                  type="button"
+                  onClick={() => onOpenVisit(visit.id)}
+                  sx={{
+                    appearance: "none",
+                    border: 0,
+                    margin: 0,
+                    background: G.surface,
+                    font: "inherit",
+                    textAlign: "left",
+                    cursor: "pointer",
+                    display: "block",
+                    width: "100%",
+                    boxSizing: "border-box",
                     borderRadius: "12px",
                     p: 2,
+                    color: "inherit",
+                    outline: "none",
+                    transition: "background-color 120ms ease, box-shadow 120ms ease",
+                    "&:hover": {
+                      bgcolor: "#eef2f6",
+                    },
+                    "&:focus-visible": {
+                      boxShadow: `0 0 0 2px ${G.blueSoft}`,
+                    },
                   }}
                 >
                   <Stack
@@ -873,8 +969,7 @@ export function WelcomeDashboard({
                         </Typography>
                       </Box>
                     </Stack>
-                    <Button
-                      onClick={() => onOpenVisit(visit.id)}
+                    <Box
                       sx={{
                         borderRadius: "24px",
                         bgcolor: "#fff",
@@ -883,18 +978,16 @@ export function WelcomeDashboard({
                         boxShadow: "0 0 0 1px rgba(60,64,67,0.12)",
                         fontWeight: 500,
                         fontSize: 14.5,
-                        textTransform: "none",
                         px: 2,
                         height: 36,
-                        "&:hover": {
-                          bgcolor: G.blueSoft,
-                          boxShadow: `0 0 0 1px ${G.blue}`,
-                          color: G.blue,
-                        },
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
                       }}
                     >
                       Xem kết quả
-                    </Button>
+                    </Box>
                   </Stack>
 
                   <Box
@@ -942,8 +1035,9 @@ export function WelcomeDashboard({
                     ))}
                   </Box>
                 </Box>
-              </AccordionDetails>
-            </Accordion>
+                </Box>
+              </Collapse>
+            </Box>
           );
         })}
       </SoftCard>
