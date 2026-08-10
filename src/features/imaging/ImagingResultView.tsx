@@ -230,9 +230,9 @@ export function ImagingResultView({ detail }: Props) {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: { xs: 420, sm: 480, lg: "100%" },
-          minHeight: { xs: 420, sm: 480, lg: 520 },
-          maxHeight: { xs: 420, sm: 480, lg: "none" },
+          height: { xs: 560, sm: 600, lg: "100%" },
+          minHeight: { xs: 560, sm: 600, lg: 520 },
+          maxHeight: { xs: 560, sm: 600, lg: "none" },
           borderRadius: CARD_RADIUS,
           overflow: "hidden",
           bgcolor: "#202124",
