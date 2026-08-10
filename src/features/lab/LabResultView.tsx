@@ -6,14 +6,12 @@ import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
-import Tab from "@mui/material/Tab";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
@@ -26,7 +24,7 @@ import BloodtypeOutlinedIcon from "@mui/icons-material/BloodtypeOutlined";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import type { SvgIconComponent } from "@mui/icons-material";
 import type { LabIndicator, LabResultDetail, Patient } from "@/types";
-import { useScrollTabIntoView } from "@/hooks/useScrollTabIntoView";
+import { ScrollableTabBar } from "@/components/ui/ScrollableTabBar";
 import { CARD_RADIUS, G, SHADOW } from "@/theme/dashboardTokens";
 
 type Props = {
@@ -206,7 +204,6 @@ function flagOf(row: LabIndicator) {
 
 export function LabResultView({ patient, detail }: Props) {
   const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("blood");
-  const tabsRef = useScrollTabIntoView(tab);
   const [openCats, setOpenCats] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(detail.categories.map((c, i) => [c.id, i === 0])),
   );
@@ -451,38 +448,7 @@ export function LabResultView({ patient, detail }: Props) {
         }}
       >
         <Box sx={{ px: { xs: 1.5, sm: 2.5 }, pt: 1 }}>
-          <Tabs
-            ref={tabsRef}
-            value={tab}
-            onChange={(_, v) => setTab(v)}
-            variant="scrollable"
-            scrollButtons={false}
-            allowScrollButtonsMobile
-            sx={{
-              minHeight: 44,
-              "& .MuiTabs-scroller": {
-                WebkitOverflowScrolling: "touch",
-              },
-              "& .MuiTab-root": {
-                textTransform: "none",
-                fontWeight: 500,
-                fontSize: 15,
-                color: G.secondary,
-                minHeight: 44,
-                px: 1.5,
-              },
-              "& .Mui-selected": { color: `${G.blue} !important` },
-              "& .MuiTabs-indicator": {
-                bgcolor: G.blue,
-                height: 3,
-                borderRadius: "3px 3px 0 0",
-              },
-            }}
-          >
-            {TABS.map((t) => (
-              <Tab key={t.id} value={t.id} label={t.label} />
-            ))}
-          </Tabs>
+          <ScrollableTabBar tabs={TABS} value={tab} onChange={setTab} />
         </Box>
         <Divider sx={{ borderColor: "rgba(218,220,224,0.65)" }} />
 

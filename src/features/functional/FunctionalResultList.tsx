@@ -8,8 +8,6 @@ import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import type { SvgIconComponent } from "@mui/icons-material";
 import AirOutlinedIcon from "@mui/icons-material/AirOutlined";
@@ -26,6 +24,7 @@ import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import type { FunctionalResultItem, Patient } from "@/types";
+import { ScrollableTabBar } from "@/components/ui/ScrollableTabBar";
 import { CARD_RADIUS, G, SHADOW } from "@/theme/dashboardTokens";
 
 type Props = {
@@ -456,33 +455,7 @@ export function FunctionalResultList({ patient, items, visitMeta }: Props) {
         }}
       >
         <Box sx={{ px: { xs: 1.5, sm: 2.5 }, pt: 1 }}>
-          <Tabs
-            value={tab}
-            onChange={(_, v) => setTab(v)}
-            variant="scrollable"
-            scrollButtons="auto"
-            sx={{
-              minHeight: 44,
-              "& .MuiTab-root": {
-                textTransform: "none",
-                fontWeight: 500,
-                fontSize: 15,
-                color: G.secondary,
-                minHeight: 44,
-                px: 1.5,
-              },
-              "& .Mui-selected": { color: `${G.blue} !important` },
-              "& .MuiTabs-indicator": {
-                bgcolor: G.blue,
-                height: 3,
-                borderRadius: "3px 3px 0 0",
-              },
-            }}
-          >
-            {TABS.map((t) => (
-              <Tab key={t.id} value={t.id} label={t.label} />
-            ))}
-          </Tabs>
+          <ScrollableTabBar tabs={TABS} value={tab} onChange={setTab} />
         </Box>
         <Divider sx={{ borderColor: "rgba(218,220,224,0.65)" }} />
 
