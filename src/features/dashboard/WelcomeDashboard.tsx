@@ -31,7 +31,7 @@ import {
 } from "@/theme/dashboardTokens";
 
 type DashboardView = "latest" | "history" | "profile" | "support";
-type NavTab = "home" | "history" | "info" | "support";
+export type NavTab = "home" | "history" | "info" | "support";
 
 type Props = {
   patient: Patient;
@@ -195,7 +195,7 @@ export function DashboardTopBar({
           maxWidth: 1440,
           mx: "auto",
           px: { xs: 2, sm: 10 },
-          height: { xs: 56, sm: 64 },
+          height: { xs: 60, sm: 64 },
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -206,7 +206,7 @@ export function DashboardTopBar({
           sx={{
             display: "flex",
             alignItems: "center",
-            height: { xs: 40, sm: 56 },
+            height: { xs: 48, sm: 56 },
           }}
         >
           <Image
@@ -330,9 +330,9 @@ export function MobileBottomNav({
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 0.25,
-          px: 0.75,
-          py: 0.5,
+          gap: 0.5,
+          px: 1,
+          py: 0.65,
           width: "auto",
           borderRadius: "999px",
           bgcolor: "rgba(255,255,255,0.42)",
@@ -353,8 +353,8 @@ export function MobileBottomNav({
               aria-label={label}
               onClick={() => onTabChange(id)}
               sx={{
-                width: 40,
-                height: 40,
+                width: 46,
+                height: 46,
                 borderRadius: "50%",
                 color: active ? "#fff" : G.secondary,
                 bgcolor: active ? G.blue : "transparent",
@@ -372,7 +372,7 @@ export function MobileBottomNav({
                 },
               }}
             >
-              <Icon size={18} strokeWidth={active ? 2.25 : 1.75} />
+              <Icon size={20} strokeWidth={active ? 2.25 : 1.75} />
             </IconButton>
           );
         })}

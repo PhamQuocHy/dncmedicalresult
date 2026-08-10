@@ -313,7 +313,7 @@ function DashboardPageContent() {
           flex: 1,
           position: "relative",
           overflow: "hidden",
-          pb: showMainChrome ? { xs: 9, sm: 0 } : 0,
+          pb: { xs: 9, sm: 0 },
         }}
       >
         <Box
@@ -476,9 +476,7 @@ function DashboardPageContent() {
         </Typography>
       </Box>
 
-      {showMainChrome ? (
-        <MobileBottomNav activeTab={bottomTab} onTabChange={handleMainNav} />
-      ) : null}
+      <MobileBottomNav activeTab={bottomTab} onTabChange={handleMainNav} />
 
       <PatientProfileModal
         open={profileOpen}

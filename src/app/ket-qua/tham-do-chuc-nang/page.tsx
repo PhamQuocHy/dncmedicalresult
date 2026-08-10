@@ -20,6 +20,7 @@ import {
   Thermometer,
   UserRound,
 } from "lucide-react";
+import { AppMobileBottomNav } from "@/components/layout/AppMobileBottomNav";
 import { ResultPageHeader } from "@/components/layout/ResultPageHeader";
 import { FunctionalResultList } from "@/features/functional/FunctionalResultList";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
@@ -83,6 +84,7 @@ export default function FunctionalResultPage() {
           flex: 1,
           position: "relative",
           overflow: "hidden",
+          pb: { xs: 9, sm: 0 },
         }}
       >
         <Box
@@ -135,6 +137,8 @@ export default function FunctionalResultPage() {
           © 2022–2024 Bệnh Viện Đại Học Nam Cần Thơ. All Rights Reserved.
         </Typography>
       </Box>
+
+      <AppMobileBottomNav />
     </Box>
   );
 }
