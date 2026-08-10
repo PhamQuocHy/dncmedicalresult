@@ -253,6 +253,13 @@ npm run lint     # kiểm tra lỗi code cơ bản
 - Khi có backend thật: thay mock bằng API, và bổ sung file `.env.local` nếu cần.
 - File thiết kế tham khảo nằm trong thư mục `design/`
 
+### Deploy GitHub Pages
+
+- App online: [https://phamquochy.github.io/dncmedicalresult/](https://phamquochy.github.io/dncmedicalresult/)
+- **Không** mở link repo `github.com/...` — đó là trang README, không phải app.
+- Trong repo → **Settings → Pages → Build and deployment → Branch**: chọn **`gh-pages`** / `/ (root)`.
+  - Nếu để nhánh **`main`**, site sẽ hiện README thay vì app.
+
 ---
 
 ## Hỗ trợ
