@@ -3,25 +3,26 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Button from "@mui/material/Button";
+import { assetPath } from "@/lib/assetPath";
 import { cn } from "@/lib/utils";
 
 const slides = [
   {
-    image: "/images/ksk-hoc-duong-2.png",
+    image: assetPath("/images/ksk-hoc-duong-2.png"),
     title: "Tra cứu kết quả cận lâm sàng",
     body: "Xem nhanh kết quả xét nghiệm, chẩn đoán hình ảnh và thăm dò chức năng mọi lúc, mọi nơi.",
     cta: "Hướng dẫn tra cứu",
     href: "#huong-dan",
   },
   {
-    image: "/images/ksk-hoc-duong-4.png",
+    image: assetPath("/images/ksk-hoc-duong-4.png"),
     title: "Bảo mật thông tin bệnh nhân",
     body: "Xác thực bằng mã KCB và OTP gửi về số điện thoại để bảo vệ dữ liệu của bạn.",
     cta: "Liên hệ hỗ trợ",
     href: "tel:0907365115",
   },
   {
-    image: "/images/ksk-hoc-duong-6.png",
+    image: assetPath("/images/ksk-hoc-duong-6.png"),
     title: "Một cổng cho mọi kết quả",
     body: "Theo dõi lịch sử khám và tải kết quả khi cần — tiện lợi, nhanh chóng, chính xác.",
     cta: "Đặt lịch khám",

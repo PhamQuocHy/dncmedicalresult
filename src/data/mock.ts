@@ -5,6 +5,7 @@ import type {
   Patient,
   Visit,
 } from "@/types";
+import { assetPath } from "@/lib/assetPath";
 
 export const MOCK_OTP = "686868";
 
@@ -12,7 +13,7 @@ export const patient: Patient = {
   id: "bn-001",
   fullName: "Nguyễn Thanh Lam",
   initials: "NTL",
-  avatarUrl: "/images/patient-avatar.jpg",
+  avatarUrl: assetPath("/images/patient-avatar.jpg"),
   maKcb: "25410064",
   bhyt: "GD479123456789",
   bhytType: "Đúng tuyến",
@@ -195,14 +196,14 @@ export const imagingResult: ImagingResultDetail = {
   patientCode: "P-982734",
   windowLevel: { w: 4605, l: 2048 },
   images: [
-    { id: "slice-1", label: "PA ngực", src: "/images/xray/chest-01.png" },
-    { id: "slice-2", label: "PA góc 2", src: "/images/xray/chest-02.png" },
-    { id: "slice-3", label: "PA góc 3", src: "/images/xray/chest-03.png" },
-    { id: "slice-4", label: "PA góc 4", src: "/images/xray/chest-04.png" },
-    { id: "slice-5", label: "PA góc 5", src: "/images/xray/chest-05.png" },
-    { id: "slice-6", label: "PA góc 6", src: "/images/xray/chest-06.png" },
-    { id: "slice-7", label: "PA góc 7", src: "/images/xray/chest-07.png" },
-    { id: "slice-8", label: "PA góc 8", src: "/images/xray/chest-08.jpg" },
+    { id: "slice-1", label: "PA ngực", src: assetPath("/images/xray/chest-01.png") },
+    { id: "slice-2", label: "PA góc 2", src: assetPath("/images/xray/chest-02.png") },
+    { id: "slice-3", label: "PA góc 3", src: assetPath("/images/xray/chest-03.png") },
+    { id: "slice-4", label: "PA góc 4", src: assetPath("/images/xray/chest-04.png") },
+    { id: "slice-5", label: "PA góc 5", src: assetPath("/images/xray/chest-05.png") },
+    { id: "slice-6", label: "PA góc 6", src: assetPath("/images/xray/chest-06.png") },
+    { id: "slice-7", label: "PA góc 7", src: assetPath("/images/xray/chest-07.png") },
+    { id: "slice-8", label: "PA góc 8", src: assetPath("/images/xray/chest-08.jpg") },
   ],
 };
 
@@ -222,9 +223,9 @@ export const functionalResults: FunctionalResultItem[] = [
       { label: "LVDd: 45 mm" },
     ],
     images: [
-      { id: "e1", src: "/images/functional/echo-01.png" },
-      { id: "e2", src: "/images/functional/echo-02.png" },
-      { id: "e3", src: "/images/functional/echo-03.png" },
+      { id: "e1", src: assetPath("/images/functional/echo-01.png") },
+      { id: "e2", src: assetPath("/images/functional/echo-02.png") },
+      { id: "e3", src: assetPath("/images/functional/echo-03.png") },
     ],
   },
   {
@@ -242,8 +243,8 @@ export const functionalResults: FunctionalResultItem[] = [
       { label: "CLO Test: Pending", tone: "warning" },
     ],
     images: [
-      { id: "en1", src: "/images/functional/endo-01.png" },
-      { id: "en2", src: "/images/functional/endo-02.png" },
+      { id: "en1", src: assetPath("/images/functional/endo-01.png") },
+      { id: "en2", src: assetPath("/images/functional/endo-02.png") },
     ],
   },
   {

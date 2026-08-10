@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { contactLinks } from "@/data/mock";
+import { assetPath } from "@/lib/assetPath";
 
 /** Messenger FAB — Zalo dùng widget SDK bên dưới */
 export function FloatingContact() {
@@ -12,7 +13,7 @@ export function FloatingContact() {
       className="floating-messenger-fab transition hover:scale-105"
     >
       <Image
-        src="/images/icon/mess-icon.png"
+        src={assetPath("/images/icon/mess-icon.png")}
         alt="Messenger"
         width={56}
         height={56}

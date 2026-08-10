@@ -19,6 +19,7 @@ import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
 import FullscreenExitRoundedIcon from "@mui/icons-material/FullscreenExitRounded";
 import PanToolAltOutlinedIcon from "@mui/icons-material/PanToolAltOutlined";
 import type { ImagingResultDetail } from "@/types";
+import { assetPath } from "@/lib/assetPath";
 import { CARD_RADIUS, G, SHADOW } from "@/theme/dashboardTokens";
 
 const DEFAULT_ZOOM = 100;
@@ -499,7 +500,7 @@ export function ImagingResultView({ detail }: Props) {
             </Box>
             <Box
               component="img"
-              src="/images/logo-bv.png"
+              src={assetPath("/images/logo-bv.png")}
               alt="Logo Bệnh viện"
               sx={{
                 height: 36,

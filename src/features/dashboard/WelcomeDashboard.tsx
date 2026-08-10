@@ -24,6 +24,7 @@ import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import type { LabResultDetail, Patient, Visit } from "@/types";
+import { assetPath } from "@/lib/assetPath";
 import {
   CARD_RADIUS,
   SHADOW,
@@ -209,7 +210,7 @@ export function DashboardTopBar({
           }}
         >
           <Image
-            src="/images/logo-bv.png"
+            src={assetPath("/images/logo-bv.png")}
             alt="Bệnh viện Đại học Nam Cần Thơ"
             width={220}
             height={48}

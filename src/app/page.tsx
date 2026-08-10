@@ -24,6 +24,7 @@ import {
 import { FloatingContact } from "@/components/layout/FloatingContact";
 import { LookupForm } from "@/features/lookup/LookupForm";
 import { OTPModal } from "@/features/lookup/OTPModal";
+import { assetPath } from "@/lib/assetPath";
 import { getSession } from "@/lib/session";
 
 const BOOKING_URL = "https://benhviendhnct.com.vn/";
@@ -82,7 +83,7 @@ export default function HomePage() {
       <header className="z-30 border-b border-slate-100 bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]">
         <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between gap-4 px-4 sm:h-16 sm:px-20">
           <Image
-            src="/images/logo-bv.png"
+            src={assetPath("/images/logo-bv.png")}
             alt="Bệnh viện Đại học Nam Cần Thơ"
             width={220}
             height={48}

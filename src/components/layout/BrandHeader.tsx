@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { assetPath } from "@/lib/assetPath";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -10,7 +11,7 @@ export function BrandHeader({ className, compact }: Props) {
   return (
     <div className={cn("flex items-center justify-center", className)}>
       <Image
-        src="/images/logo-bv.png"
+        src={assetPath("/images/logo-bv.png")}
         alt="Bệnh viện Đại học Nam Cần Thơ"
         width={compact ? 240 : 320}
         height={compact ? 62 : 82}
