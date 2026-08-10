@@ -30,13 +30,13 @@ export const patient: Patient = {
 };
 
 export const labResultDetail: LabResultDetail = {
-  id: "lab-2023-1025",
-  ref: "LAB-2023-1025",
+  id: "lab-2026-1025",
+  ref: "LAB-2026-1025",
   title: "Kết quả xét nghiệm chi tiết",
   conclusion: "Hemoglobin giảm nhẹ. Kali máu thấp — cần xử trí kịp thời.",
   sampleId: "SID-99281",
-  collectedAt: "25/10/2023 07:45",
-  verifiedAt: "25/10/2023 09:20",
+  collectedAt: "25/10/2026 07:45",
+  verifiedAt: "25/10/2026 09:20",
   equipment: "Roche cobas 8000",
   verifiedBy: "Bs CKII. Lê Thị M",
   criticalAlert: {
@@ -165,7 +165,7 @@ export const imagingResult: ImagingResultDetail = {
   id: "img-xq-001",
   title: "Chụp X-quang ngực",
   status: "KẾT QUẢ CUỐI CÙNG",
-  date: "12/11/2023",
+  date: "12/11/2026",
   patientName: "Nguyễn Văn A",
   maKcb: "25410064",
   method: "Digital X-Ray (DX)",
@@ -212,7 +212,7 @@ export const functionalResults: FunctionalResultItem[] = [
     id: "fn-echo",
     kind: "echo",
     title: "Siêu âm tim Doppler màu",
-    datetime: "14/10/2023 · 09:30",
+    datetime: "14/10/2026 · 09:30",
     status: "approved",
     statusLabel: "Đã duyệt",
     conclusion:
@@ -232,7 +232,7 @@ export const functionalResults: FunctionalResultItem[] = [
     id: "fn-endo",
     kind: "endo",
     title: "Nội soi dạ dày - tá tràng",
-    datetime: "14/10/2023 · 11:15",
+    datetime: "14/10/2026 · 11:15",
     status: "pending",
     statusLabel: "Chờ sinh thiết",
     conclusion:
@@ -251,7 +251,7 @@ export const functionalResults: FunctionalResultItem[] = [
     id: "fn-spiro",
     kind: "spiro",
     title: "Đo chức năng hô hấp",
-    datetime: "13/10/2023 · 08:00",
+    datetime: "13/10/2026 · 08:00",
     status: "approved",
     statusLabel: "Đã duyệt",
     conclusion:
@@ -268,7 +268,7 @@ export const visits: Visit[] = [
   {
     id: "visit-001",
     title: "Khám Nội khoa",
-    date: "25/10/2023",
+    date: "25/10/2026",
     doctor: "Bác sĩ Nguyễn Văn A",
     department: "Nội khoa",
     status: "Đã có kết quả",
@@ -303,7 +303,7 @@ export const visits: Visit[] = [
   {
     id: "visit-002",
     title: "Theo dõi chuyên khoa tim mạch",
-    date: "12/06/2023",
+    date: "12/06/2026",
     doctor: "Bác sĩ Trần Văn C",
     department: "Tim mạch",
     status: "Đã xác nhận",
@@ -322,7 +322,7 @@ export const visits: Visit[] = [
   {
     id: "visit-003",
     title: "Khám tổng quát",
-    date: "03/03/2023",
+    date: "03/03/2026",
     doctor: "Bác sĩ Lê Thị B",
     department: "Khám bệnh",
     status: "Đã xác nhận",

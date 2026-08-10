@@ -224,10 +224,10 @@ export function LookupForm({ onSuccess }: Props) {
         </Button>
 
         <p className="pt-1 text-center text-[15px] text-slate-500 sm:pt-3 sm:text-[17px]">
-          Không thể tìm thấy kết quả khám chữa bệnh{" "}
+          Không thể tìm thấy kết quả khám chữa bệnh
           <a
             href={`tel:${contactLinks.phone}`}
-            className="font-semibold text-[#f22b2c] underline underline-offset-2 hover:text-[#bf2122]"
+            className="mt-1 block font-semibold text-[#1a73e8] underline underline-offset-2 hover:text-[#1557b0] sm:mt-0 sm:ml-1 sm:inline"
           >
             Liên hệ ngay.
           </a>

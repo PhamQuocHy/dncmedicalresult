@@ -107,11 +107,11 @@ Nguồn dữ liệu: file `src/data/mock.ts` (`MOCK_OTP`, `patient`).
 
 | STT | Ngày khám | Tên lần khám | Khoa | Bác sĩ | Trạng thái |
 | --- | --- | --- | --- | --- | --- |
-| 1 (mới nhất) | 25/10/2023 | Khám Nội khoa | Nội khoa | Bác sĩ Nguyễn Văn A | Đã có kết quả |
-| 2 | 12/06/2023 | Theo dõi chuyên khoa tim mạch | Tim mạch | Bác sĩ Trần Văn C | Đã xác nhận |
-| 3 | 03/03/2023 | Khám tổng quát | Khám bệnh | Bác sĩ Lê Thị B | Đã xác nhận |
+| 1 (mới nhất) | 25/10/2026 | Khám Nội khoa | Nội khoa | Bác sĩ Nguyễn Văn A | Đã có kết quả |
+| 2 | 12/06/2026 | Theo dõi chuyên khoa tim mạch | Tim mạch | Bác sĩ Trần Văn C | Đã xác nhận |
+| 3 | 03/03/2026 | Khám tổng quát | Khám bệnh | Bác sĩ Lê Thị B | Đã xác nhận |
 
-### 3.4. Kết quả lần khám mới nhất (25/10/2023)
+### 3.4. Kết quả lần khám mới nhất (25/10/2026)
 
 | Nhóm kết quả | Nội dung ngắn | Link sau khi bấm “Xem” |
 | --- | --- | --- |
@@ -172,7 +172,7 @@ Làm lần lượt theo bảng dưới. Đánh dấu ✓ khi đúng.
 | --- | --- | --- |
 | C1 | Xem card hồ sơ | Tên **Nguyễn Thanh Lam**, mã **#25410064** |
 | C2 | Xem 4 ô chỉ số | O+ · 2 loại · 456789 · 5.2 mmol/L |
-| C3 | Xem “Lần khám gần đây” | Có lần **Khám Nội khoa — 25/10/2023** |
+| C3 | Xem “Lần khám gần đây” | Có lần **Khám Nội khoa — 25/10/2026** |
 | C4 | Bấm **Xem kết quả mới nhất** | URL thành `?view=latest`, hiện trang kết quả mới |
 
 ### D. Kết quả gần nhất
