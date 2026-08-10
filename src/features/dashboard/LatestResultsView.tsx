@@ -129,17 +129,31 @@ function ResultRow({ preview }: { preview: VisitPreview }) {
     <Box
       component={Link}
       href={preview.detailHref}
+      aria-label={`Xem ${preview.title}: ${preview.subtitle}`}
       sx={{
         display: "flex",
         alignItems: "center",
         gap: 1.75,
+        width: "100%",
+        boxSizing: "border-box",
         px: { xs: 2, sm: 2.5 },
-        py: 1.5,
+        py: { xs: 1.65, sm: 1.5 },
+        minHeight: { xs: 72, sm: 64 },
         textDecoration: "none",
+        color: "inherit",
+        WebkitTapHighlightColor: "transparent",
+        touchAction: "manipulation",
+        cursor: "pointer",
         transition: "background-color 120ms ease",
         "&:hover": {
           bgcolor: G.blueSoft,
           "& .chevron": { color: G.blue, transform: "translateX(2px)" },
+        },
+        "&:active": {
+          bgcolor: G.blueSoft,
+        },
+        "& *": {
+          pointerEvents: "none",
         },
       }}
     >
