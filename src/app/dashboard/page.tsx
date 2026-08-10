@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Box from "@mui/material/Box";
@@ -99,7 +99,27 @@ function parseViewParam(value: string | null): DashboardView | null {
     : null;
 }
 
-export default function DashboardPage() {
+function DashboardLoading() {
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+        bgcolor: "#f8fafb",
+      }}
+    >
+      <Stack spacing={1.5} sx={{ alignItems: "center" }}>
+        <CircularProgress size={32} thickness={4} sx={{ color: "#1a73e8" }} />
+        <Typography sx={{ fontSize: 15, color: "#6B7280" }}>
+          Đang tải hồ sơ bệnh nhân...
+        </Typography>
+      </Stack>
+    </Box>
+  );
+}
+
+function DashboardPageContent() {
   const { ready, handleLogout } = useRequireAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -230,23 +250,7 @@ export default function DashboardPage() {
   }, [olderVisits, filters]);
 
   if (!ready || !patient) {
-    return (
-      <Box
-        sx={{
-          minHeight: "100vh",
-          display: "grid",
-          placeItems: "center",
-          bgcolor: "#f8fafb",
-        }}
-      >
-        <Stack spacing={1.5} sx={{ alignItems: "center" }}>
-          <CircularProgress size={32} thickness={4} sx={{ color: "#1a73e8" }} />
-          <Typography sx={{ fontSize: 15, color: "#6B7280" }}>
-            Đang tải hồ sơ bệnh nhân...
-          </Typography>
-        </Stack>
-      </Box>
-    );
+    return <DashboardLoading />;
   }
 
   const showMainChrome =
@@ -482,5 +486,13 @@ export default function DashboardPage() {
         onClose={closeProfile}
       />
     </Box>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<DashboardLoading />}>
+      <DashboardPageContent />
+    </Suspense>
   );
 }

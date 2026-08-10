@@ -68,12 +68,14 @@ export function HistoryFilter({ onSearch, resultCount }: Props) {
               if (e.key === "Enter") submit();
             }}
             placeholder="Khoa, bác sĩ, loại kết quả..."
-            InputProps={{
-              startAdornment: (
-                <SearchRoundedIcon
-                  sx={{ fontSize: 19, color: G.secondary, mr: 1 }}
-                />
-              ),
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <SearchRoundedIcon
+                    sx={{ fontSize: 19, color: G.secondary, mr: 1 }}
+                  />
+                ),
+              },
             }}
             sx={fieldSx}
           />
@@ -91,7 +93,7 @@ export function HistoryFilter({ onSearch, resultCount }: Props) {
             type="date"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            InputLabelProps={{ shrink: true }}
+            slotProps={{ inputLabel: { shrink: true } }}
             sx={fieldSx}
           />
         </Box>
@@ -108,7 +110,7 @@ export function HistoryFilter({ onSearch, resultCount }: Props) {
             type="date"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            InputLabelProps={{ shrink: true }}
+            slotProps={{ inputLabel: { shrink: true } }}
             sx={fieldSx}
           />
         </Box>
