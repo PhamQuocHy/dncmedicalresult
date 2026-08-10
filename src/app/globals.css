@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Momo+Trust+Sans:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+  --brand-green: #1a73e8;
+  --brand-green-dark: #1557b0;
+  --brand-red: #d32f2f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-dark: var(--brand-green-dark);
+  --color-brand-red: var(--brand-red);
+  --font-sans: "Momo Trust Sans", sans-serif;
+  --font-heading: "Momo Trust Sans", sans-serif;
+  --font-momo: "Momo Trust Sans", sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Momo Trust Sans", sans-serif;
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Momo Trust Sans", sans-serif;
+}
+
+.medical-bg {
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.medical-bg::before,
+.medical-bg::after {
+  content: "+";
+  position: absolute;
+  color: rgba(209, 213, 219, 0.5);
+  font-size: 8rem;
+  font-weight: 300;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.medical-bg::before {
+  top: 6%;
+  left: 8%;
+}
+
+.medical-bg::after {
+  right: 8%;
+  bottom: 8%;
+}
+
+@keyframes ring-ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(26, 115, 232, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(26, 115, 232, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(26, 115, 232, 0);
+  }
+}
+
+.animate-booking-btn {
+  animation: ring-ripple 2s infinite cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Floating contact: Messenger + Zalo SDK cùng cột */
+:root {
+  --fab-size: 56px;
+  --fab-right: 16px;
+  --fab-bottom: 16px;
+  --fab-gap: 12px;
+}
+
+.floating-messenger-fab {
+  position: fixed;
+  z-index: 40;
+  right: var(--fab-right);
+  bottom: calc(var(--fab-bottom) + var(--fab-size) + var(--fab-gap));
+  display: block;
+  width: var(--fab-size);
+  height: var(--fab-size);
+}
+
+/* Zalo chat widget */
+.zalo-chat-widget {
+  bottom: var(--fab-bottom) !important;
+  right: var(--fab-right) !important;
+}
+
+.zalo-chat-widget iframe {
+  width: 300px !important;
+  max-width: min(300px, calc(100vw - 24px)) !important;
+  height: 380px !important;
+  max-height: min(380px, 70vh) !important;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --fab-right: 12px;
+    --fab-bottom: 48px;
+  }
+
+  body.booking-modal-open .zalo-chat-widget,
+  body.booking-modal-open .floating-messenger-fab,
+  body.otp-modal-open .zalo-chat-widget,
+  body.otp-modal-open .floating-messenger-fab {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}

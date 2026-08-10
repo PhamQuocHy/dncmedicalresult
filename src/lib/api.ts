@@ -1,0 +1,55 @@
+import { MOCK_OTP, patient, visits } from "@/data/mock";
+import type { LookupPayload } from "@/types";
+
+const delay = (ms = 600) => new Promise((r) => setTimeout(r, ms));
+
+export class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
+export async function requestOtp(payload: LookupPayload) {
+  await delay();
+  if (!payload.turnstileToken) {
+    throw new ApiError("Vui lòng xác thực chống bot", 400);
+  }
+  if (payload.maKcb.length < 6 || payload.phone.length < 9) {
+    throw new ApiError("Thông tin không hợp lệ", 400);
+  }
+  // Mock: mọi mã hợp lệ đều gửi OTP thành công
+  return {
+    success: true as const,
+    message: "Đã gửi mã OTP tới số điện thoại",
+    expiresIn: 180,
+  };
+}
+
+export async function verifyOtp(otp: string) {
+  await delay(500);
+  if (otp !== MOCK_OTP) {
+    throw new ApiError("Mã OTP không đúng", 400);
+  }
+  return {
+    success: true as const,
+    token: `mock-token-${Date.now()}`,
+    patient,
+  };
+}
+
+export async function resendOtp() {
+  await delay(400);
+  return { success: true as const, expiresIn: 180 };
+}
+
+export async function fetchPatientDashboard() {
+  await delay(300);
+  return { patient, visits };
+}
+
+export async function logoutApi() {
+  await delay(100);
+  return { success: true as const };
+}

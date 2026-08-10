@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500">
+  <rect width="400" height="500" fill="#111"/>
+  <ellipse cx="200" cy="250" rx="120" ry="160" fill="none" stroke="#ddd" stroke-width="3"/>
+  <ellipse cx="200" cy="250" rx="70" ry="100" fill="none" stroke="#bbb" stroke-width="2"/>
+  <path d="M80 180 Q200 120 320 180" fill="none" stroke="#ccc" stroke-width="2"/>
+  <path d="M90 320 Q200 380 310 320" fill="none" stroke="#ccc" stroke-width="2"/>
+  <circle cx="160" cy="220" r="8" fill="#eee"/>
+  <circle cx="240" cy="230" r="6" fill="#ddd"/>
+  <text x="200" y="470" text-anchor="middle" fill="#666" font-size="14" font-family="Arial">X-Ray Placeholder</text>
+</svg>

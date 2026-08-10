@@ -1,0 +1,86 @@
+
+KIẾN TRÚC THÀNH PHẦN FRONTEND (FRONTEND ARCHITECTURE SPECIFICATION)
+1. Tổng quan Hệ thống
+Hệ thống Frontend được thiết kế để phục vụ nghiệp vụ y tế (tra cứu kết quả cận lâm sàng và quản lý hồ sơ bệnh nhân). Kiến trúc đặt trọng tâm vào tính bảo mật cao, trải nghiệm người dùng (UX) mượt mà và khả năng bảo trì/mở rộng.
+Công nghệ lõi (Tech Stack): React, Next.js (App Router/Pages Router).
+Quản lý giao diện (Styling): Tailwind CSS.
+Phương pháp thiết kế: Component-based theo mô hình phân lớp (Layered Architecture).
+2. Cấu trúc Phân tầng Kiến trúc (Layered Architecture)
+Hệ thống không code nguyên khối mà được chia thành 4 tầng độc lập, tuân thủ nguyên tắc Separation of Concerns (Phân tách mối quan tâm):
+Tầng Giao diện (UI Components Layer): Chứa các thành phần tĩnh, thuần hiển thị (Dumb Components) như Button, Input, Modal. Sử dụng Tailwind CSS để đồng bộ Design System.
+Tầng Nghiệp vụ (Features Layer): Nơi ghép nối UI và Logic. Chứa các tổ hợp chức năng cụ thể như LookupForm (Form tra cứu) hay OTPModal (Popup xác thực).
+Tầng Quản lý Trạng thái &amp; Bảo mật (State &amp; Security Layer): Xử lý luồng dữ liệu nội bộ (Local State), đếm ngược thời gian, lắng nghe hành vi người dùng (Idle detection) và lưu trữ Token bảo mật.
+Tầng Giao tiếp (API &amp; Network Layer): Chịu trách nhiệm gọi API, đính kèm Token bảo mật, bắt các HTTP Error (Interceptor) để trả về logic xử lý tương ứng.
+ Chi tiết Kiến trúc các Phân hệ Nghiệp vụ
+Phân hệ 3.1: Tra cứu &amp; Xác thực Cận lâm sàng
+Phân hệ này xử lý luồng xác thực danh tính bệnh nhân trước khi cho phép xem dữ liệu nhạy cảm.
+Component LookupForm (Bước Nhập thông tin):
+Cơ chế Validate: Thực hiện kiểm tra tính hợp lệ (format SĐT, độ dài Mã KCB) ngay tại Frontend trước khi gửi Request, giảm tải cho Server.
+Tích hợp Cloudflare Turnstile: Component bọc logic gọi SDK Cloudflare để lấy Token chống Bot. Request gửi lên Backend bao gồm [Dữ liệu Form + Turnstile Token].
+Xử lý Rate Limit &amp; Sai thông tin: Khối API Layer sẽ hứng mã HTTP 429 (Rate Limit IP) hoặc HTTP 400/404 (Sai thông tin) từ Backend để hiển thị thông báo lỗi (Error Message) ngay dưới form mà không làm tải lại trang.
+Component OTPModal (Bước Xác thực OTP):
+Quản lý State số lần sai (Max 5 lần): Frontend duy trì một biến errorCount. Nếu API trả về lỗi sai mã, tăng biến đếm. Đạt ngưỡng 5 lần, Frontend tự động khóa Form và hiển thị cảnh báo.
+Cơ chế Rate Limit gửi lại (60s): Sử dụng Custom Hook useCountdown để khóa nút "Gửi lại" trong 60 giây. Sau 60s, nút được kích hoạt để gọi API /api/resend-otp.
+Cơ chế Hiệu lực OTP (3 phút): Đồng hồ đếm ngược 180s hiển thị trên UI. Sau 3 phút, Frontend vô hiệu hóa nút "Xác thực" và yêu cầu gửi lại. (Lưu ý: Tính hợp lệ thực sự của OTP vẫn được Backend kiểm chứng chéo trong Database để chống bypass).
+Phân hệ 3.2: Quản lý Phiên &amp; Bảo mật Bệnh nhân (Patient Session Security)
+Phân hệ này chạy ngầm (Background Service) tại trang Bệnh án để bảo vệ phiên đăng nhập, chống đánh cắp dữ liệu khi người dùng treo máy hoặc bị lộ Session. Hội tụ tại một nguồn chân lý duy nhất (Single Source of Truth) là Trung tâm Xóa phiên (Logout Handler).
+Cơ chế Auto-Logout khi treo máy (Idle Timeout):
+Sử dụng Custom Hook lắng nghe các sự kiện DOM ở cấp cao nhất (mousemove, scroll, keydown, click).
+Tối ưu hiệu năng: Áp dụng kỹ thuật Throttle/Debounce (chỉ ghi nhận sự kiện 2-3 giây/lần) để không làm treo trình duyệt.
+Nếu đồng hồ đếm lùi chạm mốc 10 - 15 phút không có tương tác, hệ thống tự động kích hoạt Logout Handler.
+Cơ chế Xóa phiên chủ động:
+Nút "Thoát" trên UI gọi trực tiếp vào Logout Handler để dọn dẹp phiên ngay lập tức.
+Cơ chế Đánh chặn IP (IP Binding &amp; Interceptor):
+Frontend thiết lập một Axios Interceptor (Trạm kiểm lâm ngầm) áp dụng cho mọi API Request gọi dữ liệu.
+Backend chịu trách nhiệm so sánh IP hiện tại với IP lúc tạo phiên. Nếu phát hiện đổi IP, Backend trả về mã lỗi HTTP 401 (Unauthorized).
+Interceptor tại Frontend hứng toàn bộ lỗi 401 này, bỏ qua mọi logic hiển thị đang dang dở, và cưỡng chế gọi Logout Handler.
+Phân hệ 3.3: Quản trị Hồ sơ &amp; Lịch sử Bệnh án (Patient Dashboard)
+Trang Bệnh nhân là một giao diện chứa lượng lớn dữ liệu (Data-heavy). Kiến trúc ở đây tập trung vào hiệu năng (Performance) và thiết kế tái sử dụng (Reusability).
+1. Khối Thông tin Bệnh nhân (PatientProfile Component)
+Chức năng: Là một Dumb Component thuần hiển thị. Nhận dữ liệu (Props) từ Page cha gồm các trường: Họ tên, Ngày sinh, Mã BN, Thẻ BHYT, Địa chỉ, Tiền sử dị ứng.
+Kỹ thuật UI: Sử dụng CSS Grid/Flexbox để responsive. Trên Mobile hiển thị dạng danh sách dọc, trên PC hiển thị dạng thẻ (Card) chia 2-3 cột.
+2. Khối Lịch sử khám (MedicalHistoryList &amp; Accordion Component)
+Kiến trúc Dữ liệu (Data Grouping): Dữ liệu trả về từ Backend sẽ được Frontend nhóm lại (Group by) theo trường Ngày khám hoặc Mã lượt khám.
+Cơ chế Accordion (Dropdown):
+Mỗi lượt khám được bọc trong một &lt;Accordion&gt; (có thể dùng thư viện Radix UI hoặc Headless UI để đảm bảo chuẩn accessibility và mượt mà).
+Trạng thái mặc định: Đóng toàn bộ, hoặc chỉ mở duy nhất lượt khám gần nhất để tránh giật lag UI (DOM Overload).
+3. Kiến trúc Component Xem trước (Preview Cards) Trong một lượt khám sẽ có nhiều chỉ định khác nhau. Các chỉ định này được component hóa thành các Card Preview gọn gàng:
+LabTestPreview (Xét nghiệm vi sinh/Sinh hóa):
+Chỉ hiển thị: Tiêu đề (VD: Xét nghiệm Huyết học) và phần Kết luận/Đánh giá.
+Gắn kèm nút "Xem chi tiết".
+ImagingPreview (Chẩn đoán hình ảnh - X-Quang, Siêu âm, MRI):
+Hiển thị: Tiêu đề, Hình ảnh thu nhỏ (Thumbnail), và Kết luận.
+Tối ưu: Ảnh Thumbnail phải được gọi từ API riêng hoặc có kích thước nén rất nhỏ (VD: độ phân giải 200x200, WebP) để tải nhanh. Không tải nguyên file DICOM hay ảnh Full-HD vào màn hình này.
+4. Khối Modal Chi tiết (Detail Modals &amp; Lazy Loading) Đây là nơi người dùng click xem bảng thông số hoặc xem ảnh gốc.
+Kiến trúc Quản lý Modal (Global Modal State): Không nên nhúng thẻ &lt;Modal&gt; vào từng thẻ Preview (sẽ sinh ra hàng chục thẻ Modal ẩn trong DOM làm nặng máy). Thay vào đó, đặt 1 thẻ &lt;ModalRoot&gt; duy nhất ở ngoài cùng Page. Khi click Preview, truyền Data ID và Loại Modal vào Global State (Zustand/Context) để render đúng nội dung.
+LabTestTableModal:
+Thiết kế giao diện Bảng (Table). Cột gồm: Tên chỉ số, Kết quả (in đậm/đỏ nếu bất thường), Trị số bình thường, Đơn vị...
+ImagingDetailModal:
+Hiển thị ảnh gốc chất lượng cao.
+Tích hợp tính năng Zoom ảnh (sử dụng thư viện react-medium-image-zoom hoặc tương đương).
+Bên dưới hiển thị chi tiết: Mô tả tổn thương, Kết luận, Chữ ký bác sĩ…
+Tối ưu Tải dữ liệu (Lazy Loading): Để trang khởi động nhanh, danh sách Lịch sử khám ban đầu chỉ gọi API lấy dữ liệu tóm tắt (Summary). Chỉ khi người dùng Click mở Modal, Frontend mới gọi API GET /api/records/{id} để tải toàn bộ bảng chỉ số hoặc ảnh Full-HD về.
+Phân hệ 3.4: Kiến trúc Layout xử lý kết quả Cận lâm sàng Đa hình ảnh (Multi-Image Viewer Pattern)
+1. Vấn đề đặt ra: Đối với các chỉ định chẩn đoán hình ảnh phức tạp (như CT-Scan, MRI hoặc chuỗi X-Quang), một kết quả có thể chứa từ vài chục đến hàng trăm lát cắt (slices) hoặc khung hình. Nếu hệ thống render tất cả hình ảnh chất lượng cao trên cùng một trang, trình duyệt sẽ gặp tình trạng tràn bộ nhớ (Memory Leak), treo ứng dụng và tạo ra trải nghiệm cuộn dọc (scrolling) vô tận, khiến người xem khó đối chiếu hình ảnh với kết luận y khoa.
+2. Hướng giải quyết tổng thể: Hệ thống loại bỏ thiết kế cuộn dọc truyền thống, chuyển sang áp dụng mô hình Master-Detail Layout (Tương tự hệ thống PACS thu gọn). Giao diện được cố định (Fixed view) và phân chia rõ ràng giữa khu vực thao tác ảnh và khu vực đọc thông tin.
+3. Chi tiết Bố cục Giao diện (UI Layout Strategy):
+Trên môi trường PC/Tablet (Split-screen): Giao diện Modal/Page được chia thành 2 cột:
+Cột trái (Chiếm ~60% diện tích): Trọng tâm dành cho thao tác hình ảnh y khoa. Không có thanh cuộn (Scrollbar) dọc của toàn trang.
+Cột phải (Chiếm ~40% diện tích): Cố định (Sticky) phần thông tin y khoa bao gồm:Tên dịch vụ, mô tả kết quả, kết luật...
+Trên môi trường Mobile (Stack Layout): Giao diện xếp chồng. Vùng tương tác ảnh được ghim ở gần nửa trên màn hình, nửa dưới là vùng cuộn để đọc kết luận chữ.
+4. Cấu trúc Component hiển thị hình ảnh:
+MainViewer (Trình xem ảnh chính): Là một Component lớn hiển thị bức ảnh đang được chọn. Tích hợp các công cụ thao tác ảnh y khoa cơ bản như: Phóng to/thu nhỏ (Zoom in/out), Kéo thả (Pan/Drag).
+ThumbnailStrip (Dải cuộn ảnh thu nhỏ): Được bố trí nằm ngang (dưới MainViewer) hoặc dọc (bên rìa MainViewer). Hiển thị danh sách các lát cắt dưới dạng hình thu nhỏ. Khi người dùng nhấp vào một Thumbnail, MainViewer sẽ cập nhật tương ứng.
+5. Giải pháp Tối ưu Hiệu năng (Performance &amp; Memory Optimization): Đây là cốt lõi kỹ thuật để hệ thống chạy mượt trên các thiết bị cấu hình yếu:
+Kỹ thuật Ảo hóa danh sách (DOM Virtualization): Dải ThumbnailStrip không bao giờ render hàng trăm thẻ &lt;img&gt; cùng lúc. Hệ thống sử dụng Virtualization (thông qua thư viện như @tanstack/react-virtual) để chỉ vẽ ra DOM khoảng 5-10 ảnh đang nằm trong tầm nhìn (Viewport) của người dùng. Các node DOM sẽ được tái sử dụng khi cuộn.
+Tải chậm theo độ phân giải (Resolution-based Lazy Loading):
+Toàn bộ ảnh trong dải ThumbnailStrip được nén ở kích thước siêu nhỏ (Low-Res, định dạng WebP) để load tức thì.
+Hệ thống chỉ gọi API tải ảnh gốc chất lượng cao (High-Res) cho duy nhất 01 bức ảnh đang được hiển thị (Active) trên MainViewer.
+Tải trước thông minh (Smart Prefetching): Trong lúc người dùng đang xem bức ảnh hiện tại, Frontend âm thầm tải ngầm (background fetch) bức ảnh liền kề (n+1) vào bộ nhớ cache. Nhờ đó, khi người dùng bấm chuyển sang ảnh tiếp theo, hình ảnh sẽ xuất hiện ngay lập tức mà không có độ trễ (Zero-latency UX).
+4. Quy trình chuẩn của Trung tâm Xóa phiên (Logout Handler)
+Bất kể nguyên nhân kích hoạt là gì (Treo máy 15p, Bấm nút thoát, hay Đổi IP), hệ thống Frontend phải tuân thủ trình tự dọn dẹp sau để đảm bảo không rò rỉ dữ liệu:
+Hủy Token nội bộ: Xóa Access Token và Refresh Token khỏi localStorage, sessionStorage, hoặc gỡ bỏ HTTP-only Cookie.
+Dọn dẹp State: Reset toàn bộ Global State (các thông tin bệnh án, lịch sử khám đang lưu trong RAM của trình duyệt).
+Thông báo Backend: Bắn một API Request bất đồng bộ (Fire-and-forget) đến /api/logout để Server chủ động hủy phiên trong Database/Redis.
+Điều hướng: Cưỡng chế chuyển hướng (Redirect) người dùng về trang Đăng nhập/Tra cứu ban đầu.
+Đánh giá Kiến trúc: Kiến trúc này phân định rạch ròi trách nhiệm của UI (hiển thị), Logic (đếm ngược, bắt sự kiện) và API (bắt lỗi 401, gửi Token). Việc thiết kế hệ thống bảo mật chặt chẽ như vậy từ Frontend sẽ giúp phần mềm Enterprise tương thích hoàn hảo với các Backend mạnh mẽ, đảm bảo vượt qua các tiêu chuẩn kiểm định an toàn thông tin (Pentest).
