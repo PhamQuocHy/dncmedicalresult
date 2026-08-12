@@ -3,9 +3,6 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import {
@@ -29,6 +26,7 @@ import { AppMobileBottomNav } from "@/components/layout/AppMobileBottomNav";
 import { PageFooter } from "@/components/layout/PageFooter";
 import { ResultPageHeader } from "@/components/layout/ResultPageHeader";
 import { ResultPageTitle } from "@/components/layout/ResultPageTitle";
+import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { ImagingResultView } from "@/features/imaging/ImagingResultView";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import {
@@ -37,35 +35,11 @@ import {
 } from "@/data/mock";
 import { G } from "@/theme/dashboardTokens";
 
-const MODALITY_OPTIONS: { value: ImagingModality; label: string }[] = [
-  { value: "xquang", label: "Xquang" },
-  { value: "ct", label: "CT" },
-  { value: "mri", label: "MRI" },
+const MODALITY_TABS: { id: ImagingModality; label: string }[] = [
+  { id: "xquang", label: "Xquang" },
+  { id: "ct", label: "CT" },
+  { id: "mri", label: "MRI" },
 ];
-
-const modalitySelectSx = {
-  minWidth: { xs: 120, sm: 140 },
-  height: 40,
-  borderRadius: "10px",
-  bgcolor: "#fff",
-  fontSize: 15,
-  fontWeight: 500,
-  color: G.ink,
-  "& .MuiOutlinedInput-notchedOutline": {
-    borderColor: "rgba(218,220,224,0.95)",
-  },
-  "&:hover .MuiOutlinedInput-notchedOutline": {
-    borderColor: "#bdc1c6",
-  },
-  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: G.blue,
-    borderWidth: 1.5,
-  },
-  "& .MuiSelect-select": {
-    py: 1,
-    px: 1.5,
-  },
-} as const;
 
 const bgIcons = [
   { Icon: Stethoscope, className: "top-[10%] left-[4%] h-16 w-16 rotate-[-18deg] opacity-[0.07]" },
@@ -158,22 +132,12 @@ export default function ImagingResultPage() {
               icon={ImageOutlinedIcon}
               iconColor={G.blue}
               action={
-                <FormControl size="small" sx={{ flexShrink: 0 }}>
-                  <Select
-                    value={modality}
-                    onChange={(e) =>
-                      setModality(e.target.value as ImagingModality)
-                    }
-                    displayEmpty
-                    sx={modalitySelectSx}
-                  >
-                    {MODALITY_OPTIONS.map(({ value, label }) => (
-                      <MenuItem key={value} value={value}>
-                        {label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <SegmentedControl
+                  tabs={MODALITY_TABS}
+                  value={modality}
+                  onChange={setModality}
+                  fullWidth
+                />
               }
             />
             <ImagingResultView key={detail.id} detail={detail} />

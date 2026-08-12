@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { SvgIconComponent } from "@mui/icons-material";
@@ -23,10 +24,10 @@ export function ResultPageTitle({
 }: Props) {
   return (
     <Stack
-      direction="row"
-      spacing={1}
+      direction={{ xs: action ? "column" : "row", sm: "row" }}
+      spacing={{ xs: action ? 1.25 : 1, sm: 1 }}
       sx={{
-        alignItems: "center",
+        alignItems: { xs: action ? "stretch" : "center", sm: "center" },
         justifyContent: "space-between",
         gap: 2,
         minWidth: 0,
@@ -57,7 +58,17 @@ export function ResultPageTitle({
           {title}
         </Typography>
       </Stack>
-      {action}
+      {action ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "center", sm: "flex-end" },
+            flexShrink: 0,
+          }}
+        >
+          {action}
+        </Box>
+      ) : null}
     </Stack>
   );
 }
