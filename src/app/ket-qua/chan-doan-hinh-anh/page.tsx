@@ -20,9 +20,11 @@ import {
   Thermometer,
   UserRound,
 } from "lucide-react";
+import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { AppMobileBottomNav } from "@/components/layout/AppMobileBottomNav";
 import { PageFooter } from "@/components/layout/PageFooter";
 import { ResultPageHeader } from "@/components/layout/ResultPageHeader";
+import { ResultPageTitle } from "@/components/layout/ResultPageTitle";
 import { ImagingResultView } from "@/features/imaging/ImagingResultView";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { imagingResult } from "@/data/mock";
@@ -77,7 +79,7 @@ export default function ImagingResultPage() {
         bgcolor: "#f8fafb",
       }}
     >
-      <ResultPageHeader title="Kết quả chẩn đoán hình ảnh" />
+      <ResultPageHeader showLogo showBack={false} />
 
       <Box
         component="main"
@@ -111,7 +113,14 @@ export default function ImagingResultPage() {
             py: { xs: 2.5, sm: "35px" },
           }}
         >
-          <ImagingResultView detail={imagingResult} />
+          <Stack spacing={2.25}>
+            <ResultPageTitle
+              title="Kết quả chẩn đoán hình ảnh"
+              icon={ImageOutlinedIcon}
+              iconColor={G.blue}
+            />
+            <ImagingResultView detail={imagingResult} />
+          </Stack>
         </Box>
       </Box>
 

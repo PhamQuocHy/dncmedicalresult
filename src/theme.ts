@@ -22,10 +22,13 @@ const theme = createTheme({
     h4: { fontFamily: "'Momo Trust Sans', sans-serif" },
     h5: { fontFamily: "'Momo Trust Sans', sans-serif" },
     h6: { fontFamily: "'Momo Trust Sans', sans-serif" },
-    body1: { fontSize: 15 },
-    body2: { fontSize: 14 },
-    caption: { fontSize: 12 },
+    subtitle1: { fontFamily: "'Momo Trust Sans', sans-serif" },
+    subtitle2: { fontFamily: "'Momo Trust Sans', sans-serif" },
+    body1: { fontFamily: "'Momo Trust Sans', sans-serif", fontSize: 15 },
+    body2: { fontFamily: "'Momo Trust Sans', sans-serif", fontSize: 14 },
+    caption: { fontFamily: "'Momo Trust Sans', sans-serif", fontSize: 12 },
     button: {
+      fontFamily: "'Momo Trust Sans', sans-serif",
       textTransform: "none",
       fontWeight: 600,
       fontSize: 14,
@@ -35,6 +38,16 @@ const theme = createTheme({
     borderRadius: 12,
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        html: {
+          fontFamily: "'Momo Trust Sans', sans-serif",
+        },
+        body: {
+          fontFamily: "'Momo Trust Sans', sans-serif",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {

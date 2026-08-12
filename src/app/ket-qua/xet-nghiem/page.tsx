@@ -20,9 +20,11 @@ import {
   Thermometer,
   UserRound,
 } from "lucide-react";
+import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
 import { AppMobileBottomNav } from "@/components/layout/AppMobileBottomNav";
 import { PageFooter } from "@/components/layout/PageFooter";
 import { ResultPageHeader } from "@/components/layout/ResultPageHeader";
+import { ResultPageTitle } from "@/components/layout/ResultPageTitle";
 import { LabResultView } from "@/features/lab/LabResultView";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { labResultDetail, patient } from "@/data/mock";
@@ -77,7 +79,7 @@ export default function LabResultPage() {
         bgcolor: "#f8fafb",
       }}
     >
-      <ResultPageHeader title="Kết quả xét nghiệm máu" />
+      <ResultPageHeader showLogo showBack={false} />
 
       <Box
         component="main"
@@ -111,7 +113,14 @@ export default function LabResultPage() {
             py: { xs: 2.5, sm: "35px" },
           }}
         >
-          <LabResultView patient={patient} detail={labResultDetail} />
+          <Stack spacing={2.25}>
+            <ResultPageTitle
+              title="Kết quả xét nghiệm máu"
+              icon={ScienceOutlinedIcon}
+              iconColor={G.blue}
+            />
+            <LabResultView patient={patient} detail={labResultDetail} />
+          </Stack>
         </Box>
       </Box>
 

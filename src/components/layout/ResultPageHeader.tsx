@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -9,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
+import { assetPath } from "@/lib/assetPath";
 import {
   BRAND,
   BRAND_DARK,
@@ -18,12 +21,15 @@ import {
 } from "@/theme/dashboardTokens";
 
 type Props = {
-  title: string;
+  title?: string;
   fallbackHref?: string;
   onBack?: () => void;
   onDownload?: () => void;
   showDownload?: boolean;
   showSupport?: boolean;
+  showBack?: boolean;
+  /** Hiện logo BV trên header */
+  showLogo?: boolean;
 };
 
 export function ResultPageHeader({
@@ -33,6 +39,8 @@ export function ResultPageHeader({
   onDownload,
   showDownload = true,
   showSupport = true,
+  showBack = true,
+  showLogo = false,
 }: Props) {
   const router = useRouter();
 
@@ -77,31 +85,60 @@ export function ResultPageHeader({
           spacing={1}
           sx={{ alignItems: "center", minWidth: 0 }}
         >
-          <IconButton
-            onClick={handleBack}
-            aria-label="Quay lại"
-            size="small"
-            sx={{
-              color: MUTED,
-              borderRadius: "10px",
-              "&:hover": { bgcolor: BRAND_SOFT, color: BRAND },
-            }}
-          >
-            <ArrowBackRoundedIcon />
-          </IconButton>
-          <Typography
-            sx={{
-              fontSize: { xs: 16, sm: 17 },
-              fontWeight: 600,
-              color: INK,
-              letterSpacing: "-0.01em",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {title}
-          </Typography>
+          {showBack ? (
+            <IconButton
+              onClick={handleBack}
+              aria-label="Quay lại"
+              size="small"
+              sx={{
+                color: MUTED,
+                borderRadius: "10px",
+                "&:hover": { bgcolor: BRAND_SOFT, color: BRAND },
+              }}
+            >
+              <ArrowBackRoundedIcon />
+            </IconButton>
+          ) : null}
+          {showLogo ? (
+            <Box
+              component={Link}
+              href="/dashboard"
+              aria-label="Về trang chủ"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                height: { xs: 40, sm: 48 },
+                textDecoration: "none",
+                borderRadius: "8px",
+                flexShrink: 0,
+                "&:hover": { opacity: 0.9 },
+              }}
+            >
+              <Image
+                src={assetPath("/images/logo-bv.png")}
+                alt="Bệnh viện Đại học Nam Cần Thơ"
+                width={220}
+                height={48}
+                priority
+                style={{ height: "100%", width: "auto", objectFit: "contain" }}
+              />
+            </Box>
+          ) : null}
+          {title ? (
+            <Typography
+              sx={{
+                fontSize: { xs: 16, sm: 17 },
+                fontWeight: 600,
+                color: INK,
+                letterSpacing: "-0.01em",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {title}
+            </Typography>
+          ) : null}
         </Stack>
 
         <Stack

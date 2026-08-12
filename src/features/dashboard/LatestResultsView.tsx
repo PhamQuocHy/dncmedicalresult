@@ -26,6 +26,7 @@ import type {
   VisitPreview,
   VisitPreviewKind,
 } from "@/types";
+import { ResultPageTitle } from "@/components/layout/ResultPageTitle";
 import {
   CARD_RADIUS,
   G,
@@ -237,6 +238,13 @@ export function LatestResultsView({
 
   return (
     <Stack spacing={2.25}>
+      <ResultPageTitle
+        title={`Đợt khám ngày ${visit.date}`}
+        icon={CalendarTodayOutlinedIcon}
+        iconColor={G.blue}
+        iconSize={22}
+      />
+
       {/* Hero — gọn, hai cột sát nhau hơn */}
       <Box
         sx={{
@@ -586,6 +594,7 @@ export function LatestResultsView({
             border: "none",
             px: { xs: 2.25, sm: 2.75 },
             py: 2.25,
+            pb: 2.75,
           }}
         >
           <Stack direction="row" spacing={1.25} sx={{ alignItems: "center", mb: 1.25 }}>

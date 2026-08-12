@@ -215,10 +215,6 @@ function DashboardPageContent() {
     return latestVisit;
   }, [visits, selectedVisitId, latestVisit]);
 
-  const resultPageTitle = selectedVisit
-    ? `Đợt khám ngày ${selectedVisit.date}`
-    : "Kết quả khám";
-
   const filteredOlder = useMemo(() => {
     const q = filters.q.trim().toLowerCase();
     const from = filters.from ? new Date(filters.from) : null;
@@ -299,9 +295,11 @@ function DashboardPageContent() {
         <ResultPageHeader
           title={
             activeView === "latest"
-              ? resultPageTitle
+              ? undefined
               : VIEW_TITLE[activeView as Exclude<DashboardView, "welcome" | "latest">]
           }
+          showLogo={activeView === "latest"}
+          showBack={activeView !== "latest"}
           onBack={() => navigate("welcome")}
           showDownload={activeView === "latest"}
           showSupport

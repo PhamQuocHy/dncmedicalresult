@@ -20,9 +20,11 @@ import {
   Thermometer,
   UserRound,
 } from "lucide-react";
+import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
 import { AppMobileBottomNav } from "@/components/layout/AppMobileBottomNav";
 import { PageFooter } from "@/components/layout/PageFooter";
 import { ResultPageHeader } from "@/components/layout/ResultPageHeader";
+import { ResultPageTitle } from "@/components/layout/ResultPageTitle";
 import { FunctionalResultList } from "@/features/functional/FunctionalResultList";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { functionalResults, patient } from "@/data/mock";
@@ -77,7 +79,7 @@ export default function FunctionalResultPage() {
         bgcolor: "#f8fafb",
       }}
     >
-      <ResultPageHeader title="Kết quả thăm dò chức năng" />
+      <ResultPageHeader showLogo showBack={false} />
 
       <Box
         component="main"
@@ -111,15 +113,22 @@ export default function FunctionalResultPage() {
             py: { xs: 2.5, sm: "35px" },
           }}
         >
-          <FunctionalResultList
-            patient={patient}
-            items={functionalResults}
-            visitMeta={{
-              date: "30/07/2026",
-              department: "Nội khoa",
-              doctor: "Bác sĩ Trần Văn C",
-            }}
-          />
+          <Stack spacing={2.25}>
+            <ResultPageTitle
+              title="Kết quả thăm dò chức năng"
+              icon={MonitorHeartOutlinedIcon}
+              iconColor={G.blue}
+            />
+            <FunctionalResultList
+              patient={patient}
+              items={functionalResults}
+              visitMeta={{
+                date: "30/07/2026",
+                department: "Nội khoa",
+                doctor: "Bác sĩ Trần Văn C",
+              }}
+            />
+          </Stack>
         </Box>
       </Box>
 

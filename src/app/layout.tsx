@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import "@fontsource/momo-trust-sans/400.css";
+import "@fontsource/momo-trust-sans/500.css";
+import "@fontsource/momo-trust-sans/600.css";
+import "@fontsource/momo-trust-sans/700.css";
 import "./globals.css";
 import { ZaloChatWidget } from "@/components/layout/ZaloChatWidget";
 import { Providers } from "./providers";

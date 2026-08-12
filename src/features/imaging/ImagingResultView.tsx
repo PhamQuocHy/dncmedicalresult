@@ -548,16 +548,25 @@ export function ImagingResultView({ detail }: Props) {
               </Stack>
             </Box>
             <Box
-              component="img"
-              src={assetPath("/images/logo-bv.png")}
-              alt="Logo Bệnh viện"
               sx={{
-                height: 36,
-                width: "auto",
-                objectFit: "contain",
+                width: 48,
+                height: 48,
                 flexShrink: 0,
+                overflow: "hidden",
               }}
-            />
+            >
+              <Box
+                component="img"
+                src={assetPath("/images/logo-bv.png")}
+                alt="Logo Bệnh viện"
+                sx={{
+                  height: "100%",
+                  width: "auto",
+                  maxWidth: "none",
+                  display: "block",
+                }}
+              />
+            </Box>
           </Stack>
 
           <Box
