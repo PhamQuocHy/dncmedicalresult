@@ -202,6 +202,42 @@ function flagOf(row: LabIndicator) {
   return "";
 }
 
+const labTableHeadCellSx = {
+  fontWeight: 500,
+  fontSize: 13,
+  color: G.secondary,
+  borderColor: "rgba(218,220,224,0.55)",
+  bgcolor: "#fafafa",
+  py: 1,
+} as const;
+
+/** Cột số liệu gom gọn bên phải, không để dư khoảng trống. */
+const labTableColSx = {
+  name: {
+    width: { xs: "38%", sm: "45%" },
+    minWidth: 0,
+    pr: { xs: 0.75, sm: 1 },
+  },
+  result: {
+    width: { xs: "16%", sm: "15%" },
+    textAlign: "center",
+    px: 0.5,
+    whiteSpace: "nowrap",
+  },
+  ref: {
+    width: { xs: "28%", sm: "23%" },
+    textAlign: "center",
+    px: 0.5,
+    whiteSpace: "nowrap",
+  },
+  unit: {
+    width: { xs: "16%", sm: "17%" },
+    textAlign: "center",
+    px: 0.75,
+    whiteSpace: "nowrap",
+  },
+} as const;
+
 export function LabResultView({ patient, detail }: Props) {
   const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("blood");
   const [openCats, setOpenCats] = useState<Record<string, boolean>>(() =>
@@ -636,11 +672,12 @@ export function LabResultView({ patient, detail }: Props) {
                     </Box>
 
                     <Collapse in={open}>
-                      <TableContainer>
+                      <TableContainer sx={{ overflowX: "auto" }}>
                         <Table
                           size="medium"
                           sx={{
-                            minWidth: 560,
+                            width: "100%",
+                            tableLayout: "fixed",
                             "& .MuiTableCell-root": {
                               borderColor: "rgba(218,220,224,0.55)",
                             },
@@ -651,12 +688,8 @@ export function LabResultView({ patient, detail }: Props) {
                             <TableRow>
                               <TableCell
                                 sx={{
-                                  fontWeight: 500,
-                                  fontSize: 13,
-                                  color: G.secondary,
-                                  borderColor: "rgba(218,220,224,0.55)",
-                                  bgcolor: "#fafafa",
-                                  py: 1,
+                                  ...labTableHeadCellSx,
+                                  ...labTableColSx.name,
                                   letterSpacing: "0.02em",
                                 }}
                               >
@@ -664,60 +697,37 @@ export function LabResultView({ patient, detail }: Props) {
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  fontWeight: 500,
-                                  fontSize: 13,
-                                  color: G.secondary,
-                                  borderColor: "rgba(218,220,224,0.55)",
-                                  bgcolor: "#fafafa",
-                                  py: 1,
+                                  ...labTableHeadCellSx,
+                                  ...labTableColSx.result,
                                 }}
                               >
                                 Kết quả
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  fontWeight: 500,
-                                  fontSize: 13,
-                                  color: G.secondary,
-                                  borderColor: "rgba(218,220,224,0.55)",
-                                  bgcolor: "#fafafa",
-                                  py: 1,
+                                  ...labTableHeadCellSx,
+                                  ...labTableColSx.ref,
+                                  fontSize: { xs: 12.5, sm: 13 },
+                                  lineHeight: 1.35,
                                 }}
                               >
-                                Đơn vị
+                                Khoảng tham chiếu
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  fontWeight: 500,
-                                  fontSize: 13,
-                                  color: G.secondary,
-                                  borderColor: "rgba(218,220,224,0.55)",
-                                  bgcolor: "#fafafa",
-                                  py: 1,
+                                  ...labTableHeadCellSx,
+                                  ...labTableColSx.unit,
+                                  fontSize: { xs: 12.5, sm: 13 },
+                                  lineHeight: 1.35,
                                 }}
                               >
-                                Tham chiếu
-                              </TableCell>
-                              <TableCell
-                                align="center"
-                                sx={{
-                                  fontWeight: 500,
-                                  fontSize: 13,
-                                  color: G.secondary,
-                                  borderColor: "rgba(218,220,224,0.55)",
-                                  bgcolor: "#fafafa",
-                                  py: 1,
-                                  width: 56,
-                                }}
-                              >
-                                *
+                                Đơn vị tính
                               </TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
                             {cat.indicators.map((row) => {
-                              const flag = flagOf(row);
-                              const abnormal = Boolean(flag);
+                              const abnormal = Boolean(flagOf(row));
                               return (
                                 <TableRow
                                   key={row.id}
@@ -732,6 +742,7 @@ export function LabResultView({ patient, detail }: Props) {
                                       borderColor: "rgba(218,220,224,0.55)",
                                       fontSize: 15,
                                       py: 1.25,
+                                      ...labTableColSx.name,
                                     }}
                                   >
                                     {row.name}
@@ -744,19 +755,10 @@ export function LabResultView({ patient, detail }: Props) {
                                       borderColor: "rgba(218,220,224,0.55)",
                                       fontSize: 15,
                                       py: 1.25,
+                                      ...labTableColSx.result,
                                     }}
                                   >
                                     {row.result}
-                                  </TableCell>
-                                  <TableCell
-                                    sx={{
-                                      color: G.secondary,
-                                      borderColor: "rgba(218,220,224,0.55)",
-                                      fontSize: 14.5,
-                                      py: 1.25,
-                                    }}
-                                  >
-                                    {row.unit}
                                   </TableCell>
                                   <TableCell
                                     sx={{
@@ -765,38 +767,21 @@ export function LabResultView({ patient, detail }: Props) {
                                       borderColor: "rgba(218,220,224,0.55)",
                                       fontSize: 14.5,
                                       py: 1.25,
+                                      ...labTableColSx.ref,
                                     }}
                                   >
                                     {row.refMin} – {row.refMax}
                                   </TableCell>
                                   <TableCell
-                                    align="center"
                                     sx={{
+                                      color: G.secondary,
                                       borderColor: "rgba(218,220,224,0.55)",
+                                      fontSize: 14.5,
                                       py: 1.25,
+                                      ...labTableColSx.unit,
                                     }}
                                   >
-                                    {abnormal ? (
-                                      <Chip
-                                        size="small"
-                                        label={flag}
-                                        sx={{
-                                          height: 22,
-                                          minWidth: 28,
-                                          fontSize: 12,
-                                          fontWeight: 700,
-                                          bgcolor: G.redSoft,
-                                          color: G.red,
-                                          "& .MuiChip-label": { px: 0.75 },
-                                        }}
-                                      />
-                                    ) : (
-                                      <Typography
-                                        sx={{ fontSize: 14, color: "#bdc1c6" }}
-                                      >
-                                        —
-                                      </Typography>
-                                    )}
+                                    {row.unit}
                                   </TableCell>
                                 </TableRow>
                               );
