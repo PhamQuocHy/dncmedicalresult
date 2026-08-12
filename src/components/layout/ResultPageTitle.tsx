@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { SvgIconComponent } from "@mui/icons-material";
@@ -9,6 +10,7 @@ type Props = {
   icon?: SvgIconComponent;
   iconColor?: string;
   iconSize?: number;
+  action?: ReactNode;
 };
 
 /** Tiêu đề dạng icon + chữ (nằm trên card info), không click. */
@@ -17,6 +19,7 @@ export function ResultPageTitle({
   icon: Icon = ArrowBackRoundedIcon,
   iconColor = G.blue,
   iconSize = 26,
+  action,
 }: Props) {
   return (
     <Stack
@@ -24,28 +27,37 @@ export function ResultPageTitle({
       spacing={1}
       sx={{
         alignItems: "center",
+        justifyContent: "space-between",
+        gap: 2,
         minWidth: 0,
         mt: { xs: -0.5, sm: -1 },
         mb: 1.5,
       }}
     >
-      <Icon sx={{ fontSize: iconSize, color: iconColor, flexShrink: 0 }} />
-      <Typography
-        sx={{
-          fontSize: 19,
-          fontWeight: 400,
-          color: G.ink,
-          letterSpacing: "-0.01em",
-          lineHeight: 1.3,
-          minWidth: 0,
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-          fontFamily: "'Momo Trust Sans', sans-serif",
-        }}
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{ alignItems: "center", minWidth: 0, flex: 1 }}
       >
-        {title}
-      </Typography>
+        <Icon sx={{ fontSize: iconSize, color: iconColor, flexShrink: 0 }} />
+        <Typography
+          sx={{
+            fontSize: 19,
+            fontWeight: 400,
+            color: G.ink,
+            letterSpacing: "-0.01em",
+            lineHeight: 1.3,
+            minWidth: 0,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            fontFamily: "'Momo Trust Sans', sans-serif",
+          }}
+        >
+          {title}
+        </Typography>
+      </Stack>
+      {action}
     </Stack>
   );
 }

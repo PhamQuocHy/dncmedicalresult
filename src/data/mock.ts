@@ -207,6 +207,100 @@ export const imagingResult: ImagingResultDetail = {
   ],
 };
 
+export type ImagingModality = "xquang" | "ct" | "mri";
+
+export const imagingResultCT: ImagingResultDetail = {
+  id: "img-ct-001",
+  title: "Chụp CT lồng ngực có cản quang",
+  status: "KẾT QUẢ CUỐI CÙNG",
+  date: "10/11/2026",
+  patientName: "Nguyễn Văn A",
+  maKcb: "25410064",
+  method: "Computed Tomography (CT)",
+  room: "Radiology - Room 2A",
+  indication:
+    "Ho kéo dài, nghi ngờ viêm phổi. Đánh giá nhu mô phổi và hạch trung thất.",
+  findings: [
+    {
+      title: "Phổi và đường thở",
+      description:
+        "Hai phổi sáng đều, không thấy ổ khu trú hay hình ảnh kính mờ. Phế quản phế nang thông thoáng.",
+    },
+    {
+      title: "Trung thất và mạch máu",
+      description:
+        "Động mạch chủ và nhánh lớn không giãn bất thường. Không thấy hạch trung thất to.",
+    },
+    {
+      title: "Thành ngực và xương",
+      description:
+        "Khung xương sườn nguyên vẹn. Thành ngực trước-sau không bất thường.",
+    },
+  ],
+  assessment:
+    "Hình ảnh CT lồng ngực không ghi nhận tổn thương đáng kể. Không thấy dấu hiệu viêm phổi.",
+  doctor: "Dr. Trần Minh Hoàng",
+  dob: "1985-04-12",
+  patientCode: "P-982734",
+  windowLevel: { w: 1500, l: -600 },
+  images: [
+    { id: "ct-1", label: "Lát cắt ngang", src: assetPath("/images/xray/chest-01.png") },
+    { id: "ct-2", label: "Lát cắt 2", src: assetPath("/images/xray/chest-02.png") },
+    { id: "ct-3", label: "Lát cắt 3", src: assetPath("/images/xray/chest-03.png") },
+    { id: "ct-4", label: "Lát cắt 4", src: assetPath("/images/xray/chest-04.png") },
+    { id: "ct-5", label: "Lát cắt 5", src: assetPath("/images/xray/chest-05.png") },
+    { id: "ct-6", label: "Lát cắt 6", src: assetPath("/images/xray/chest-06.png") },
+  ],
+};
+
+export const imagingResultMRI: ImagingResultDetail = {
+  id: "img-mri-001",
+  title: "Chụp MRI não không cản quang",
+  status: "KẾT QUẢ CUỐI CÙNG",
+  date: "08/11/2026",
+  patientName: "Nguyễn Văn A",
+  maKcb: "25410064",
+  method: "Magnetic Resonance Imaging (MRI)",
+  room: "Radiology - Room 4C",
+  indication:
+    "Đau đầu tái phát, nghi ngờ rối loạn mạch máu não. Đánh giá chất xám-trắng và mạch máu não.",
+  findings: [
+    {
+      title: "Chất xám và chất trắng",
+      description:
+        "Phân biệt chất xám-chất trắng rõ. Không thấy ổ tổn thương khu trú hay tín hiệu bất thường.",
+    },
+    {
+      title: "Não thất và não thất bên",
+      description:
+        "Hệ thống não thất cân đối, không giãn. Không có dịch não tủy quanh não.",
+    },
+    {
+      title: "Mạch máu và xương sọ",
+      description:
+        "Không thấy hình ảnh nhồi máu hay xuất huyết. Xương sọ và xoang cạnh không bất thường.",
+    },
+  ],
+  assessment:
+    "Hình ảnh MRI não trong giới hạn bình thường. Không ghi nhận tổn thương cấu trúc hay mạch máu đáng kể.",
+  doctor: "Dr. Lê Thị Hương",
+  dob: "1985-04-12",
+  patientCode: "P-982734",
+  windowLevel: { w: 2000, l: 1000 },
+  images: [
+    { id: "mri-1", label: "T1 sagittal", src: assetPath("/images/xray/chest-07.png") },
+    { id: "mri-2", label: "T2 axial", src: assetPath("/images/xray/chest-08.jpg") },
+    { id: "mri-3", label: "FLAIR axial", src: assetPath("/images/functional/echo-01.png") },
+    { id: "mri-4", label: "DWI", src: assetPath("/images/functional/echo-02.png") },
+  ],
+};
+
+export const imagingResultsByModality: Record<ImagingModality, ImagingResultDetail> = {
+  xquang: imagingResult,
+  ct: imagingResultCT,
+  mri: imagingResultMRI,
+};
+
 export const functionalResults: FunctionalResultItem[] = [
   {
     id: "fn-echo",
