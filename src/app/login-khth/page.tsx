@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {
   Activity,
@@ -21,13 +21,10 @@ import {
   Thermometer,
   UserRound,
 } from "lucide-react";
-import { LookupForm } from "@/features/lookup/LookupForm";
-import { OTPModal } from "@/features/lookup/OTPModal";
+import { KhthLoginForm } from "@/features/lookup/KhthLoginForm";
 import { PageFooter } from "@/components/layout/PageFooter";
 import { assetPath } from "@/lib/assetPath";
-import { isAuthenticated } from "@/lib/session";
-
-const BOOKING_URL = "https://benhviendhnct.com.vn/";
+import { getKhthSession, getSession } from "@/lib/session";
 
 const bgIcons = [
   { Icon: Stethoscope, className: "top-[12%] left-[6%] h-16 w-16 rotate-[-18deg] opacity-[0.07]" },
@@ -46,30 +43,20 @@ const bgIcons = [
   { Icon: Activity, className: "top-[50%] right-[12%] h-12 w-12 rotate-[-4deg] opacity-[0.05]" },
 ] as const;
 
-export default function HomePage() {
+export default function KhthLoginPage() {
   const router = useRouter();
   const [checking, setChecking] = useState(true);
-  const [otpOpen, setOtpOpen] = useState(false);
-  const [lookup, setLookup] = useState({ maKcb: "", phone: "" });
 
-  // Đã login thì không cho về trang tra cứu bằng Back / URL
   useEffect(() => {
-    const redirectIfAuthed = () => {
-      if (isAuthenticated()) {
-        router.replace("/dashboard");
-        return true;
-      }
-      return false;
-    };
-
-    if (redirectIfAuthed()) return;
+    if (getKhthSession()) {
+      router.replace("/khth");
+      return;
+    }
+    if (getSession()) {
+      router.replace("/dashboard");
+      return;
+    }
     setChecking(false);
-
-    const onPageShow = (e: PageTransitionEvent) => {
-      if (e.persisted) redirectIfAuthed();
-    };
-    window.addEventListener("pageshow", onPageShow);
-    return () => window.removeEventListener("pageshow", onPageShow);
   }, [router]);
 
   if (checking) {
@@ -90,34 +77,20 @@ export default function HomePage() {
             className="h-12 w-auto object-contain sm:h-14"
             priority
           />
-
-          <Button
-            component="a"
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noreferrer"
-            variant="contained"
-            color="primary"
-            className="animate-booking-btn"
-            sx={{
-              display: { xs: "none", sm: "inline-flex" },
-              borderRadius: 999,
-              px: { sm: 2, lg: 3 },
-              py: 0.7,
-              fontSize: 15,
-              fontWeight: 500,
-              bgcolor: "#1a73e8",
-              border: "1px solid rgba(26,115,232,0.45)",
-              "&:hover": { bgcolor: "#1557b0" },
-            }}
+          <Link
+            href="/"
+            className="text-[14.5px] font-medium text-[#1a73e8] hover:text-[#1557b0] hover:underline underline-offset-2"
           >
-            Đặt lịch khám
-          </Button>
+            Tra cứu bệnh nhân
+          </Link>
         </div>
       </header>
 
       <main className="relative flex flex-1 flex-col items-center overflow-hidden bg-[#f8fafb] px-4 pb-10 pt-12 sm:px-8 sm:pt-16">
-        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden text-[#8ab4f8]">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 overflow-hidden text-[#8ab4f8]"
+        >
           {bgIcons.map(({ Icon, className }, i) => (
             <Icon
               key={i}
@@ -127,38 +100,38 @@ export default function HomePage() {
           ))}
         </div>
 
-        <div id="huong-dan" className="relative z-10 w-full max-w-[850px]">
+        <div className="relative z-10 w-full max-w-[420px]">
           <Typography
             component="h1"
             align="center"
             sx={{
-              mb: 3,
-              fontSize: { xs: 21, sm: 27 },
+              mb: 0.75,
+              fontSize: { xs: 21, sm: 24 },
               fontWeight: 600,
               letterSpacing: "-0.015em",
               color: "#0f172a",
             }}
           >
-            Tra cứu kết quả cận lâm sàng
+            Đăng nhập phòng KHTH
+          </Typography>
+          <Typography
+            align="center"
+            sx={{
+              mb: 3,
+              fontSize: 14.5,
+              color: "#64748b",
+              lineHeight: 1.45,
+            }}
+          >
+            Dành cho nhân viên Kế hoạch tổng hợp — đăng nhập bằng tài khoản nội
+            bộ, không cần OTP.
           </Typography>
 
-          <LookupForm
-            onSuccess={(payload) => {
-              setLookup(payload);
-              setOtpOpen(true);
-            }}
-          />
+          <KhthLoginForm />
         </div>
       </main>
 
       <PageFooter />
-
-      <OTPModal
-        open={otpOpen}
-        onClose={() => setOtpOpen(false)}
-        maKcb={lookup.maKcb}
-        phone={lookup.phone}
-      />
     </div>
   );
 }

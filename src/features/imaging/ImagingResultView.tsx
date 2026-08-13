@@ -19,7 +19,6 @@ import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
 import FullscreenExitRoundedIcon from "@mui/icons-material/FullscreenExitRounded";
 import PanToolAltOutlinedIcon from "@mui/icons-material/PanToolAltOutlined";
 import type { ImagingResultDetail } from "@/types";
-import { assetPath } from "@/lib/assetPath";
 import { CARD_RADIUS, G, SHADOW } from "@/theme/dashboardTokens";
 
 const DEFAULT_ZOOM = 100;
@@ -491,83 +490,53 @@ export function ImagingResultView({ detail }: Props) {
         }}
       >
         <Box sx={{ flex: 1, overflowY: "auto", p: { xs: 1.75, sm: 2 } }}>
-          <Stack
-            direction="row"
-            spacing={1.25}
-            sx={{
-              alignItems: "flex-start",
-              justifyContent: "space-between",
-              mb: 1.5,
-            }}
-          >
-            <Box sx={{ minWidth: 0 }}>
-              <Typography
-                sx={{
-                  fontSize: { xs: 18, sm: 19 },
-                  fontWeight: 500,
-                  color: G.ink,
-                  lineHeight: 1.3,
-                }}
-              >
-                {detail.title}
-              </Typography>
-              <Stack
-                direction="row"
-                spacing={1}
-                useFlexGap
-                sx={{ flexWrap: "wrap", alignItems: "center", mt: 1 }}
-              >
-                <Chip
-                  size="small"
-                  icon={
-                    <CheckCircleOutlineRoundedIcon
-                      sx={{ fontSize: "18px !important" }}
-                    />
-                  }
-                  label="Đã có kết quả"
-                  sx={{
-                    height: 32,
-                    borderRadius: "8px",
-                    bgcolor: G.greenSoft,
-                    color: G.green,
-                    fontWeight: 500,
-                    fontSize: 14,
-                    letterSpacing: "0.01em",
-                    border: "1px solid rgba(19,115,51,0.16)",
-                    "& .MuiChip-icon": {
-                      ml: "8px",
-                      mr: "-2px",
-                      color: G.green,
-                    },
-                    "& .MuiChip-label": { px: 1 },
-                  }}
-                />
-                <Typography sx={{ fontSize: 14.5, color: G.secondary }}>
-                  {detail.date}
-                </Typography>
-              </Stack>
-            </Box>
-            <Box
+          <Box sx={{ minWidth: 0, mb: 1.5 }}>
+            <Typography
               sx={{
-                width: 48,
-                height: 48,
-                flexShrink: 0,
-                overflow: "hidden",
+                fontSize: { xs: 18, sm: 19 },
+                fontWeight: 500,
+                color: G.ink,
+                lineHeight: 1.3,
               }}
             >
-              <Box
-                component="img"
-                src={assetPath("/images/logo-bv.png")}
-                alt="Logo Bệnh viện"
+              {detail.title}
+            </Typography>
+            <Stack
+              direction="row"
+              spacing={1}
+              useFlexGap
+              sx={{ flexWrap: "wrap", alignItems: "center", mt: 1 }}
+            >
+              <Chip
+                size="small"
+                icon={
+                  <CheckCircleOutlineRoundedIcon
+                    sx={{ fontSize: "18px !important" }}
+                  />
+                }
+                label="Đã có kết quả"
                 sx={{
-                  height: "100%",
-                  width: "auto",
-                  maxWidth: "none",
-                  display: "block",
+                  height: 32,
+                  borderRadius: "8px",
+                  bgcolor: G.greenSoft,
+                  color: G.green,
+                  fontWeight: 500,
+                  fontSize: 14,
+                  letterSpacing: "0.01em",
+                  border: "1px solid rgba(19,115,51,0.16)",
+                  "& .MuiChip-icon": {
+                    ml: "8px",
+                    mr: "-2px",
+                    color: G.green,
+                  },
+                  "& .MuiChip-label": { px: 1 },
                 }}
               />
-            </Box>
-          </Stack>
+              <Typography sx={{ fontSize: 14.5, color: G.secondary }}>
+                {detail.date}
+              </Typography>
+            </Stack>
+          </Box>
 
           <Box
             sx={{

@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import { useCountdown } from "@/hooks/useCountdown";
 import { useOtpInput } from "@/hooks/useOtpInput";
 import { resendOtp, verifyOtp } from "@/lib/api";
-import { setSession } from "@/lib/session";
+import { clearKhthSession, setSession } from "@/lib/session";
 import { MOCK_OTP } from "@/data/mock";
 
 type Props = {
@@ -66,6 +66,7 @@ export function OTPModal({ open, onClose, maKcb, phone }: Props) {
     setError(null);
     try {
       const result = await verifyOtp(otp.value);
+      clearKhthSession();
       setSession({
         token: result.token,
         maKcb,

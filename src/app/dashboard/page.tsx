@@ -37,6 +37,7 @@ import {
 } from "@/features/dashboard/WelcomeDashboard";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { fetchPatientDashboard } from "@/lib/api";
+import { getKhthSession, getSession } from "@/lib/session";
 import { contactLinks, labResultDetail } from "@/data/mock";
 import type { Patient, Visit } from "@/types";
 import {
@@ -200,11 +201,16 @@ function DashboardPageContent() {
 
   useEffect(() => {
     if (!ready) return;
+    // Nhân viên KHTH dùng màn danh sách riêng, không vào dashboard BN
+    if (getKhthSession() && !getSession()) {
+      router.replace("/khth");
+      return;
+    }
     void fetchPatientDashboard().then((data) => {
       setPatient(data.patient);
       setVisits(data.visits);
     });
-  }, [ready]);
+  }, [ready, router]);
 
   const latestVisit = visits[0] ?? null;
   const olderVisits = visits.slice(1);

@@ -6,34 +6,34 @@ import {
   clearKhthSession,
   clearSession,
   getKhthSession,
-  getSession,
   logoutAndRedirect,
+  type KhthSessionData,
 } from "@/lib/session";
 import { logoutApi } from "@/lib/api";
 import { useIdleTimeout } from "@/hooks/useIdleTimeout";
 
-export function useRequireAuth() {
+export function useRequireKhthAuth() {
   const router = useRouter();
   const [ready, setReady] = useState(false);
+  const [session, setSession] = useState<KhthSessionData | null>(null);
 
   useEffect(() => {
-    const patient = getSession();
     const khth = getKhthSession();
-    if (!patient && !khth) {
-      router.replace("/");
+    if (!khth) {
+      router.replace("/login-khth");
       return;
     }
+    setSession(khth);
     setReady(true);
   }, [router]);
 
   const handleLogout = async () => {
-    const wasKhth = Boolean(getKhthSession());
     try {
       void logoutApi();
     } finally {
       clearSession();
       clearKhthSession();
-      router.replace(wasKhth ? "/login-khth" : "/");
+      router.replace("/login-khth");
     }
   };
 
@@ -42,5 +42,5 @@ export function useRequireAuth() {
     onIdle: () => logoutAndRedirect(),
   });
 
-  return { ready, handleLogout };
+  return { ready, session, handleLogout };
 }

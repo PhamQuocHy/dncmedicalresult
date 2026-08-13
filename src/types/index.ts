@@ -129,3 +129,18 @@ export type LookupPayload = {
   phone: string;
   turnstileToken: string;
 };
+
+/** Dòng danh sách BN cho phòng KHTH (theo ngày khám) */
+export type KhthPatientRow = {
+  id: string;
+  fullName: string;
+  maKcb: string;
+  phone: string;
+  gender: string;
+  dateOfBirth: string;
+  /** Ngày khám — ISO YYYY-MM-DD */
+  visitDate: string;
+  department: string;
+  doctor: string;
+  status: string;
+};
