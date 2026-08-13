@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 const COPYRIGHT =
-  "© 2022–2024 Bệnh Viện Đại Học Nam Cần Thơ. All Rights Reserved.";
+  "© 2022–2026 Bệnh Viện Đại Học Nam Cần Thơ. All Rights Reserved.";
 
 /** Footer đồng bộ toàn app (login, dashboard, trang kết quả). */
 export function PageFooter() {
