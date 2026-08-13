@@ -1,0 +1,3 @@
+:HL["/dncmedicalresult/_next/static/chunks/044lno59p8cnx.css","style"]
+:HC["/",""]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"ket-qua","param":null,"prefetchHints":0,"slots":{"children":{"name":"chan-doan-hinh-anh","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"mNe9h4Cc_uyUOIfJFV4_W"}
